@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 function Main(props) {
 
     
-    const base_url = "http://localhost:8080";
+    const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
+    // const base_url = "http://localhost:8080";
 
     const [editedNotice, setEditedNotice] = useState(null);
     const [addNoticeDesktop, setAddNoticeDesktop] = useState(false);
