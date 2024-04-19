@@ -1,0 +1,29 @@
+.month-notices {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: calc(100vh - 178px);
+
+    &__item {
+        min-height: 100px;
+        width: 100%;
+        border-bottom: 1px solid $light_blue;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        position: relative;
+        padding-right: 40px;
+
+        &-date {
+            font-size: 1.7rem;
+        }
+        &-plus-icon {
+            position: absolute;
+            right: 10px;
+        }
+    }
+
+    @include responsive($laptop) {
+        display: none;
+    }
+}

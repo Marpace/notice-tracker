@@ -1,0 +1,25 @@
+.day-bar {
+    height: calc(100vh - 154px);
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: $light_blue;
+    overflow-y: scroll;
+
+    &__day {
+        width: 100%;
+        font-size: 1.3rem;
+        padding: 5px 0;
+        color: $dark_blue;
+        display: flex;
+        justify-content: center;
+    }
+    .chosen-day {
+        background-color: $light_green;
+    }
+}

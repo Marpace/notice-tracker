@@ -1,0 +1,2 @@
+- Add "see pending notices" option
+- Desktop styles

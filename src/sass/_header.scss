@@ -1,0 +1,75 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+
+    .desktop-username {
+        display: none;
+    }
+
+    &__menu-icon {
+        height: 25px;
+        width: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .menu-icon-line {
+            width: 100%;
+            height: 2px;
+            background-color: $light_blue;
+        }
+    }
+    .menu {
+        height: 100vh;
+        width: 50%;
+        padding: 20px;
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        top: 0;
+        right: -100%;
+        background-color: $light_blue;
+        transition: right 300ms ease-in-out;
+
+    }
+    
+    @include responsive($laptop) {
+        width: 15vw;
+        max-width: 300px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid white;
+        height: 100vh;
+        background-color: $light_blue;
+        padding: 30px 20px;
+
+        &__heading {
+            color: $dark_blue;
+        }
+
+        .desktop-username {
+            width: 200px;
+            display: block;
+            color: $light_blue;
+            position: absolute;
+            right: -220px;
+
+            &__name {
+                font-size: 1.3rem;
+                font-family: "Roboto-Medium";
+            }
+            &__title {
+                font-size: 1.05rem;
+            }
+        }
+
+        &__menu-icon {
+            display: none;
+        }
+        .menu {
+            display: none;
+        }
+    }
+}

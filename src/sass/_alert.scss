@@ -1,0 +1,32 @@
+.alert {
+    height: 30px;
+    width: 0px;
+    position: fixed;
+    top: 90px;
+    overflow: hidden;
+    animation-name: showAlert;
+    animation-duration: 3000ms;
+    animation-timing-function: linear;
+
+    &__text {
+        width: fit-content;
+        padding: 5px 10px;
+        background-color: $light_green;
+        border-radius: 5px;
+        white-space: nowrap;
+        color: $dark_blue;
+        font-family: "Roboto-Medium";
+    }
+    .error-alert {
+        background-color: $error_red;
+        color: $light_blue;
+        
+    }
+}
+
+@keyframes showAlert {
+    0% {width: 0px}
+    20% {width: 300px}
+    80% {width: 300px}
+    100% {width: 0px}
+}

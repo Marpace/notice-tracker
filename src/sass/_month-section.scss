@@ -1,0 +1,67 @@
+.month-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 40px;
+    border-bottom: 1px solid $light_blue;
+    padding-bottom: 5px;
+
+    .month-container {
+        display: flex;
+        gap: 10px;
+        position: relative;
+
+        .month {
+            font-size: 1.8rem;
+        }
+        .month-selection {
+            position: absolute;
+            top: 100%;
+            background-color: $light_blue;
+            z-index: 10;
+            padding: 5px 0;
+
+            &__item {
+                color: $dark_blue;
+                text-align: center;
+                font-size: 1rem;
+                padding: 5px 10px;
+            }
+            .selected-month {
+                background-color: $light_green;
+            }
+        }
+    }
+    &__options {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+
+        .add-item-btn {
+            height: 15px;
+            width: 15px;
+            position: relative;
+
+            &__line {
+                height: 100%;
+                width: 1px;
+                position: absolute;
+                top: 0;
+                left: 50%;
+                translate: -50% 0;
+                background-color: $light_blue;
+
+                &:nth-child(2) {
+                    rotate: 90deg;
+                }
+            }
+        }
+    }
+
+    @include responsive($laptop) {
+        display: none;
+    }
+}
+.day-view {
+    margin-right: 40px;
+}

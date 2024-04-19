@@ -1,0 +1,139 @@
+.new-item {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 5px;
+
+    @include responsive($laptop) {
+        flex-grow: 2;
+        min-width: 300px;
+        max-width: 350px;
+        padding: 0;
+    }
+
+    &__title {
+        font-size: 1.2rem;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &-group { 
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .form-input {
+                background-color: $dark_blue;
+                border: 1px solid $light_blue;
+                height: 40px;
+                border-radius: 5px;
+                padding: 10px;
+            }
+            .field-required { 
+                border: 2px solid red;
+            }
+            .number-input::-webkit-outer-spin-button,
+            .number-input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            .number-input[type=number]{
+                -moz-appearance: textfield;
+            }
+            .form-label {
+                color: $light_green;
+            }
+        }
+        .date-group {
+            width: 100%;
+            flex-direction: row;
+            flex-wrap: wrap;
+            
+            .date-field {
+                border: 1px solid white;
+                width: 23.5%;
+                padding: 10px;
+                height: 40px;
+                border-radius: 5px;
+                display: flex;
+                position: relative;
+                justify-content: space-between;
+                cursor: pointer;
+
+                .drop-down-icon {
+                    width: 15px;
+                    pointer-events: none;
+                    user-select: none;
+                }
+                &__drop-down {
+                    display: flex;
+                    width: 100%;
+                    max-height: 200px;
+                    flex-direction: column;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    border: 1px solid $light_blue;
+                    background-color: $dark_blue;
+                    border-radius: 5px;
+                    overflow-y: scroll;
+                    scrollbar-width: thin;
+                    scrollbar-color: $light_green $dark_blue;
+
+                    &-option {
+                        padding: 5px 10px;
+                        width: 100%;
+
+                        &:hover {
+                            background-color: $light_green;
+                            color: $dark_blue;
+                        }
+                    }
+                    .selected-option {
+                        background-color: $light_green;
+                        color: $dark_blue;
+                    }
+                }
+                &__drop-down::-webkit-scrollbar {
+                    display: none;
+                }
+                &:nth-child(1) {
+                    width: 50%;
+                }
+            }
+            .field-required { 
+                border: 2px solid red;
+            }
+            .date-label {
+                width: 100%;
+            }
+        }
+    }
+    &__buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+
+        .save-btn, .cancel-btn {
+            width: 36%;
+            height: 35px;
+            max-width: 150px;
+            background-color: $light_green;
+            border: none;
+            color: $dark_blue;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 200ms;
+
+            &:hover {
+                color: $light_green;
+                background-color: $dark_blue;
+                border: 1px solid $light_green;
+            }
+        }
+    }
+}

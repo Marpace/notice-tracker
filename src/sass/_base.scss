@@ -1,0 +1,112 @@
+//Variables +++++++++++++++++++++++++++++++++++++++
+$light_blue: #F4FFFD;
+$dark_blue: #153B50;
+$darker_blue: #042131;
+$light_green: #16F4D0;
+$green: #09A38A;
+$error_red: rgb(209, 16, 16);
+
+
+$tablet: 768px;
+$laptop: 1280px;
+$desktop: 1600px;
+$desktop_large: 2200px;
+
+
+// mixins +++++++++++++++++++++++++++++++++++++++
+@mixin responsive($size) {
+  @media only screen and (min-width: $size) {
+    @content
+  }
+}
+
+// Fonts +++++++++++++++++++++++++++++++++++++++
+
+@font-face {
+  font-family: 'Roboto-Light';
+  src: url('../../public/assets/fonts/Roboto/Roboto-Light.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('../../public/assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('../../public/assets/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto-Bold';
+  src: url('../../public/assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+// Reset +++++++++++++++++++++++++++++++++++++++
+body, button, input , textarea{
+  font-family: "Roboto-Regular";
+  color: $light_blue;
+  font-size: 14px;
+}
+  
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  height: 100svh;
+  background-color: $dark_blue;
+  position: relative;
+  overflow: hidden;
+}
+
+.app {
+  padding: 40px 15px;
+  @include responsive($laptop) {
+    display: flex;
+    gap: 20px;
+    padding: 0;
+  }
+}
+
+.desktop-main {
+  @include responsive($laptop) {
+    width: 100%;
+    padding: 150px 30px 0 0;
+    display: flex;
+    gap: 2vw;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+}
+.visible {
+  opacity: 1 !important;
+}
+
+.invisible {
+  opacity: 0 !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.show-flex {
+  display: flex !important;
+}
+.show-block {
+  display: block !important;
+}
