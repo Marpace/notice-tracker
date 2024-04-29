@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/notice-tracker/static/css/main.3e6a8101.css",
-    "main.js": "/notice-tracker/static/js/main.8e9638b0.js",
+    "main.css": "/notice-tracker/static/css/main.73270d19.css",
+    "main.js": "/notice-tracker/static/js/main.c2208d57.js",
     "static/media/Roboto-Medium.ttf": "/notice-tracker/static/media/Roboto-Medium.7c8d04cd831df3033c8a.ttf",
     "static/media/Roboto-Regular.ttf": "/notice-tracker/static/media/Roboto-Regular.fc2b5060f7accec5cf74.ttf",
     "static/media/Roboto-Bold.ttf": "/notice-tracker/static/media/Roboto-Bold.f80816a5455d171f948d.ttf",
     "static/media/Roboto-Light.ttf": "/notice-tracker/static/media/Roboto-Light.333da16a3f3cc391d087.ttf",
     "index.html": "/notice-tracker/index.html",
-    "main.3e6a8101.css.map": "/notice-tracker/static/css/main.3e6a8101.css.map",
-    "main.8e9638b0.js.map": "/notice-tracker/static/js/main.8e9638b0.js.map"
+    "main.73270d19.css.map": "/notice-tracker/static/css/main.73270d19.css.map",
+    "main.c2208d57.js.map": "/notice-tracker/static/js/main.c2208d57.js.map"
   },
   "entrypoints": [
-    "static/css/main.3e6a8101.css",
-    "static/js/main.8e9638b0.js"
+    "static/css/main.73270d19.css",
+    "static/js/main.c2208d57.js"
   ]
 }
