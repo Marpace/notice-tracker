@@ -54,7 +54,7 @@ function MonthSection(props) {
         <div className={`month-section`} style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
             <div className="month-container">
                 <p className="month">{`${calendar[props.currentMonth].month} ${props.currentScreen === "new-item" ? getOrdinal(props.currentDay) : ""}`}</p>
-                <img className={`${props.currentScreen === "new-item" ? "hidden" : ""}`} onClick={() => setShowMonthSelection(prev => prev === true ? false : true)} src="/assets/icons/arrow-icon.svg"></img>
+                <img className={`${props.currentScreen === "new-item" ? "hidden" : ""}`} onClick={() => setShowMonthSelection(prev => prev === true ? false : true)} src="./assets/icons/arrow-icon.svg"></img>
                 <div className={`month-selection ${showMonthSelection ? "" : "hidden"}`}>
                     {months.map((month, index) => (
                         <p onClick={() => chooseMonth(index)} key={index} className={`month-selection__item ${months[props.currentMonth] === month ? "selected-month" : ""}`}>{month}</p>
