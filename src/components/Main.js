@@ -22,7 +22,7 @@ function Main(props) {
     useEffect(() => {
         getNotices();
     },[])
-
+ 
     function getNotices() {
         fetch(`${base_url}/get-notices`, {
             method: "GET",
@@ -53,6 +53,8 @@ function Main(props) {
                         setAddNoticeDesktop={setAddNoticeDesktop}
                         addNoticeDesktop={addNoticeDesktop}
                         noticeData={noticeData}
+                        base_url={base_url}
+                        getNotices={getNotices}
                     />
                     <NewItem 
                         prevScreen={props.prevScreen}
@@ -83,7 +85,7 @@ function Main(props) {
                     <Alert 
                         showAlert={showAlert}
                         alertText={alertText}
-                        alertError={alertError}
+                        alertError={alertError} 
                     />
                 </div>
             )
@@ -102,6 +104,8 @@ function Main(props) {
                     setAddNoticeDesktop={setAddNoticeDesktop}
                     addNoticeDesktop={addNoticeDesktop}
                     noticeData={noticeData}
+                    base_url={base_url}
+                    getNotices={getNotices}
                 />
             )    
         case "month": 
@@ -122,6 +126,15 @@ function Main(props) {
                     setCurrentScreen={props.setCurrentScreen}
                     editedNotice={editedNotice}
                     setEditedNotice={setEditedNotice}
+                    currentScreen={props.currentScreen}
+                    currentMonth={props.currentMonth}
+                    currentDay={props.currentDay}
+                    currentYear={props.currentYear}
+                    base_url={base_url}
+                    getNotices={getNotices}
+                    setAlertText={setAlertText}
+                    setShowAlert={setShowAlert}
+                    setAlertError={setAlertError}
                 />
             )
         default:

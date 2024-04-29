@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { calendar } from "../../Data";
 import DayBar from "./DayBar";
+import Modal from "./Modal";
 
 
 function DailyNotices(props) {
 
 
     const [notices, setNotices] = useState([])
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [currentNoticeId, setCurrentNoticeId] = useState(null);
  
     useEffect(() => {
         setNotices(() => {
@@ -33,18 +36,24 @@ function DailyNotices(props) {
         })   
     }
  
-    function deleteItem(e) {
-        const index = Number(e.target.id)
-        setNotices(prev => {
-            const copy = [...prev];
-            copy.splice(index, 1);
-            console.log(copy)
-            return copy;
+    function openModal(e) {
+        setModalIsOpen(true)
+        setCurrentNoticeId(e.target.id)
+    }
+
+    function deleteItem() { 
+        fetch(`${props.base_url}/delete-notice`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({noticeId: currentNoticeId})
         })
+        .catch(err => console.log(err));
     }
 
     function markAsCompleted(e) {
-        toggleMenu(e)
+        toggleMenu(e) 
         const index = Number(e.target.id);
         setNotices(prev => {
             const copy = [...prev]; 
@@ -107,7 +116,7 @@ function DailyNotices(props) {
                         <span id={index} className="dot"></span>
                     </div>
                     <div className={`notice-menu ${notice.menuIsOpen ? "show-flex" : ""}`}>
-                        <p id={index} onClick={deleteItem} className="notice-menu-option">Delete</p>
+                        <p id={notice._id} onClick={openModal} className="notice-menu-option">Delete</p>
                         <p id={index} onClick={(e) => handleEditClick(e, notice)} className="notice-menu-option">Edit</p>
                         <p id={index} onClick={markAsCompleted} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
                     </div>
@@ -118,6 +127,12 @@ function DailyNotices(props) {
                 currentScreen={props.currentScreen}     
                 currentDay={props.currentDay}
                 setCurrentDay={props.setCurrentDay}
+            />
+            <Modal 
+                modalIsOpen={modalIsOpen}
+                setModalIsOpen={setModalIsOpen}
+                deleteItem={deleteItem}
+                getNotices={props.getNotices}
             />
         </div>
     )

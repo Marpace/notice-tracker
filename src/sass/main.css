@@ -223,7 +223,7 @@ body {
 }
 
 .day-bar {
-  height: calc(100vh - 154px);
+  height: calc(100svh - 154px);
   width: 40px;
   display: flex;
   flex-direction: column;
@@ -709,4 +709,50 @@ body {
   100% {
     width: 0px;
   }
+}
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100svh;
+  width: 100svw;
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  z-index: 100;
+}
+.modal__body {
+  padding: 30px 0;
+  width: 300px;
+  background-color: #F4FFFD;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.modal__body-text {
+  color: #153B50;
+  font-family: "Roboto-Medium";
+  font-size: 1rem;
+}
+.modal__body-buttons {
+  display: flex;
+  gap: 20px;
+}
+.modal__body-buttons .modal-btn {
+  color: #16F4D0;
+  border: none;
+  padding: 10px 20px;
+  background-color: #153B50;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Roboto-Medium";
+  transition: background-color 200ms;
+}
+.modal__body-buttons .modal-btn:hover {
+  background-color: #16F4D0;
+  color: #153B50;
 }/*# sourceMappingURL=main.css.map */
