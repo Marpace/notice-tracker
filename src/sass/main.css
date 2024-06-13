@@ -91,7 +91,6 @@ body {
 
 .header {
   display: flex;
-  justify-content: space-between;
 }
 .header .desktop-username {
   display: none;
@@ -127,7 +126,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 100px;
     border: 1px solid white;
     height: 100vh;
     background-color: #F4FFFD;
@@ -155,6 +154,18 @@ body {
   }
   .header .menu {
     display: none;
+  }
+  .header .menu-options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .header .menu-options__option {
+    color: #153B50;
+    font-size: 1rem;
+    font-family: "Roboto-Medium";
+    cursor: pointer;
   }
 }
 

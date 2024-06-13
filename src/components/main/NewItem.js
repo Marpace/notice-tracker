@@ -38,8 +38,6 @@ function NewItem(props) {
         const month = date.split(" ")[0];
         const day = date.slice((date.indexOf(" ") + 1), (date.indexOf(",")));
 
-        console.log(date)
-        console.log(day)
         createDaysArray(month);
         setMonthValue(month)
         setDayValue(day)

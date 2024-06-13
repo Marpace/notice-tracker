@@ -13,19 +13,22 @@ function App() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentScreen, setCurrentScreen] = useState("month");
   const [prevScreen, setPrevScreen] = useState("");
-
+  const [showPending, setShowPending] = useState(false);
 
   useEffect(() => {
     const screenWidth = window.screen.width;
     if(screenWidth > 1279) {
       setCurrentScreen("desktop")
     }
-
   }, [])
+
+
 
   return (
     <div className="app">
-      <Header />
+      <Header 
+        setShowPending={setShowPending}
+      />
       <MonthSection 
         currentScreen={currentScreen}
         setCurrentScreen={setCurrentScreen} 
@@ -44,6 +47,8 @@ function App() {
         setPrevScreen={setPrevScreen}
         setCurrentMonth={setCurrentMonth}
         currentYear={currentYear}
+        showPending={showPending}
+        setShowPending={setShowPending}
       />
     </div>
   );

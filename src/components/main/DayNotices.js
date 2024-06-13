@@ -10,28 +10,63 @@ function DailyNotices(props) {
     const [notices, setNotices] = useState([])
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currentNoticeId, setCurrentNoticeId] = useState(null);
+    const [noticesHeader, setNoticesHeader] = useState("")
  
     useEffect(() => {
         setNotices(() => {
             const arr = [];
-            props.noticeData.map(notice => {
-                if(notice.month === calendar[props.currentMonth].month){
-                    if(notice.day === (props.currentDay + 1)) {
+            if(props.showPending) {
+                props.noticeData.map( notice => {
+                    const noticeDate = new Date(`${notice.month} ${notice.day}, ${props.currentYear}`)
+                    const today = new Date();
+                    if(today < noticeDate) {
                         notice.menuIsOpen = false;
-                        arr.push(notice);
+                        arr.push(notice)
                     }
-                }
-            })
+                })
+            } else {
+                props.noticeData.map(notice => {
+                    if(notice.month === calendar[props.currentMonth].month){
+                        if(notice.day === (props.currentDay + 1)) {
+                            notice.menuIsOpen = false;
+                            arr.push(notice);
+                        }
+                    }
+                })
+            }
             return arr;
         })
-    }, [props.noticeData, props.currentDay, props.currentMonth]) 
+    }, [props.noticeData, props.currentDay, props.currentMonth, props.showPending]) 
 
-    function toggleMenu(e) {
-        const index = Number(e.target.id)
-        console.log(e.target)
+    useEffect(() => {
+        setNoticesHeader(() => {
+            let header; 
+
+            if(notices.length <= 0) {
+                header = `No notices scheduled for ${props.currentMonth === new Date().getMonth() && props.currentDay + 1 === new Date().getDate() 
+                    ? "today" 
+                    : `${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}`}`
+            }
+            else {
+                if(props.showPending) {
+                    header = "Pending notices"
+                    return header;
+                }
+                header = `Notices to be sent ${props.currentMonth === new Date().getMonth() && props.currentDay + 1 === new Date().getDate() 
+                    ? "today:" 
+                    : `on ${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}`}`
+            }
+
+            return header;
+        })
+    }, [notices, props.showPending])
+
+    function toggleMenu(index) {
         setNotices(prev => {
             const copy = [...prev];
-            copy[index].menuIsOpen = copy[index].menuIsOpen === false ? true : false;
+            if(copy[index]) {
+                copy[index].menuIsOpen = copy[index].menuIsOpen === false ? true : false;
+            }
             return copy;
         })   
     }
@@ -52,14 +87,26 @@ function DailyNotices(props) {
         .catch(err => console.log(err));
     }
 
-    function markAsCompleted(e) {
-        toggleMenu(e) 
-        const index = Number(e.target.id);
-        setNotices(prev => {
-            const copy = [...prev]; 
-            copy[index].completed = copy[index].completed ? false : true;
-            return copy;
+    function markAsCompleted(e, index) {
+        toggleMenu(index);
+        const noticeId = e.target.id;
+        fetch(`${props.base_url}/change-completed-status`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({noticeId: noticeId})
         })
+        .then(res => {
+            console.log(res.status)
+            props.getNotices()
+        })
+        .catch(err => console.log(err));
+        // setNotices(prev => {
+        //     const copy = [...prev]; 
+        //     copy[index].completed = copy[index].completed ? false : true;
+        //     return copy;
+        // })
     }
  
     function handleEditClick(e, notice) {
@@ -90,15 +137,7 @@ function DailyNotices(props) {
 
     return (
         <div className={`day-notices ${props.currentScreen === "desktop" && props.addNoticeDesktop ? "hidden" : ""}`}>
-            <p className={`day-notices__desktop`}>{
-                `${notices.length <= 0 
-                    ? `No notices scheduled for ${props.currentMonth === new Date().getMonth() && props.currentDay + 1 === new Date().getDate() 
-                        ? "today" 
-                        : `${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}`} `
-                    : `Notices to be sent ${props.currentMonth === new Date().getMonth() && props.currentDay + 1 === new Date().getDate() 
-                        ? "today:" 
-                        : `on ${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}`}`}`  
-            }</p>
+            <p className={`day-notices__desktop`}>{noticesHeader}</p>
             {notices.map((notice, index) => (
                 <div key={index} className="day-notices__item" style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
                     <p className="notice-title">{notice.title}</p>
@@ -110,7 +149,7 @@ function DailyNotices(props) {
                         <p className={`show-notes__notes ${notice.showNotes ? "" : "hidden"}`}>{notice.notes}</p>
                     </div>
                     
-                    <div id={index} onClick={toggleMenu} className={`notice-menu-btn`}>
+                    <div onClick={() => toggleMenu(index)} className={`notice-menu-btn`}>
                         <span id={index} className="dot"></span>
                         <span id={index} className="dot"></span>
                         <span id={index} className="dot"></span>
@@ -118,7 +157,7 @@ function DailyNotices(props) {
                     <div className={`notice-menu ${notice.menuIsOpen ? "show-flex" : ""}`}>
                         <p id={notice._id} onClick={openModal} className="notice-menu-option">Delete</p>
                         <p id={index} onClick={(e) => handleEditClick(e, notice)} className="notice-menu-option">Edit</p>
-                        <p id={index} onClick={markAsCompleted} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
+                        <p id={notice._id} onClick={(e) => markAsCompleted(e, index )} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
                     </div>
                 </div>
             ))}
@@ -127,6 +166,7 @@ function DailyNotices(props) {
                 currentScreen={props.currentScreen}     
                 currentDay={props.currentDay}
                 setCurrentDay={props.setCurrentDay}
+                setShowPending={props.setShowPending}
             />
             <Modal 
                 modalIsOpen={modalIsOpen}

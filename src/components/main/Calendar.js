@@ -10,17 +10,19 @@ function Calendar(props) {
     const [selectedMonth, setSelectedMonth] = useState(props.currentMonth);
     const [calendarDays, setCalendarDays] = useState([]);
     const [screenWidth, setScreenWidth] = useState(null);
-    const [calendarChanged, setCalendarChanged] = useState(false);
+    const [monthChanged, setMonthChanged] = useState(false);
+    const [cellClicked, setCellClicked] = useState(false);
 
     useEffect(() => {
         setScreenWidth(window.screen.width)
     }, [])
 
+
     //this sets the calendar days for the current/selected month 
     useEffect(() => {
         // gets the starting day of the week for the current or selected month
         const startingDay = new Date(`${props.currentMonth + 1} 1, ${props.currentYear}`).getDay()
-        if(calendarChanged) props.setCurrentDay(0);
+        if(monthChanged) props.setCurrentDay(0);
 
         setCalendarDays(prev => {
             const arr = [];
@@ -35,33 +37,34 @@ function Calendar(props) {
                             cell = {disabled: true}
                             dateNumber--;
                         } 
-                        else if(n === startingDay && calendarChanged) {
-                            cell = {selected: true, date: dateNumber, disabled: false}
+                        else if(n === startingDay && monthChanged) {
+                            cell.selected = true
                         } 
-                        else {
-                            cell = {selected: false, date: dateNumber, disabled: false}
-                        }
                     } 
                     // for the 5th and 6th rows, checking on which day of the 
                     //week to end the dates based on number of days of the current/selected month
                     if(i === 4 || i === 5) {
                         if(dateNumber > calendar[props.currentMonth].numberOfDays) {
-                            cell = {disabled: true};
-                        } else {
-                            cell = {selected: false, date: dateNumber}
-                        }
+                            cell.disabled = true;
+                        } 
                     } 
 
                     //when page loads this selects the actual current date on the calendar
+                    
                     const today = new Date();
-                    if(dateNumber === today.getDate() 
-                    && props.currentMonth === today.getMonth()
-                    && !calendarChanged) {
-                        cell = {selected: true, date: dateNumber, disabled: false}
+                    if(cellClicked) {
+                        console.log(props.currentDay)
+                        if(dateNumber === props.currentDay + 1) cell.selected = true;
+                    } else {
+                        if(dateNumber === today.getDate()
+                            && props.currentMonth === today.getMonth()
+                            && !monthChanged) {
+                            cell.selected = true;
+                        }
                     }
 
+                    // Checks how many notices correspond to that day and adds them to the cell object
                     let numberOfNotices = 0
-
                     props.noticeData.forEach(notice => {
                         if(notice.month === calendar[props.currentMonth].month 
                         && notice.day === dateNumber) {
@@ -85,12 +88,13 @@ function Calendar(props) {
     function chooseMonth(index) {
         props.setCurrentMonth(index);
         setSelectedMonth(index);
-        setCalendarChanged(true);
+        setMonthChanged(true);
     }
 
     function handleCellClick(rowIndex, dayIndex, date, disabled) {
         if(disabled) return;
-        // setCalendarChanged(true);
+        setMonthChanged(false);
+        setCellClicked(true);
         setCalendarDays(prev => {
             const copy = [...prev];
             copy.forEach(row => {
@@ -102,12 +106,12 @@ function Calendar(props) {
             return copy;
         })
         props.setCurrentDay(date - 1)
+        props.setShowPending(false);
     }
 
     function handlePlusIconClick(date) {
         props.setAddNoticeDesktop(true);
         props.setCurrentDay(date - 1)
-        setCalendarChanged(true);
     }
 
     return (

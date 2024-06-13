@@ -1,6 +1,5 @@
 .header {
     display: flex;
-    justify-content: space-between;
 
     .desktop-username {
         display: none;
@@ -39,7 +38,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        gap: 100px;
         border: 1px solid white;
         height: 100vh;
         background-color: $light_blue;
@@ -70,6 +69,19 @@
         }
         .menu {
             display: none;
+        }
+        .menu-options {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            &__option {
+                color: $dark_blue;
+                font-size: 1rem;
+                font-family: "Roboto-Medium";
+                cursor: pointer;
+            }
         }
     }
 }

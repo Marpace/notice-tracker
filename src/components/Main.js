@@ -22,6 +22,17 @@ function Main(props) {
     useEffect(() => {
         getNotices();
     },[])
+
+
+    // Notification.requestPermission().then(prem => {
+    //     if(prem === "granted") {
+    //         const notification = new Notification("reminder", {
+    //             body: "this is a test"
+    //         })
+    //     }
+    // })
+
+    console.log(new Date().getHours())
  
     function getNotices() {
         fetch(`${base_url}/get-notices`, {
@@ -32,7 +43,7 @@ function Main(props) {
         })
         .then(res => res.json())
         .then(res => {
-            setNoticeData(res.data); 
+            setNoticeData(res.data);  
         })
         .catch(err => console.log(err))
     }
@@ -55,6 +66,7 @@ function Main(props) {
                         noticeData={noticeData}
                         base_url={base_url}
                         getNotices={getNotices}
+                        showPending={props.showPending}
                     />
                     <NewItem 
                         prevScreen={props.prevScreen}
@@ -79,8 +91,10 @@ function Main(props) {
                         setCurrentMonth={props.setCurrentMonth}
                         currentYear={props.currentYear}
                         setCurrentDay={props.setCurrentDay}
+                        currentDay={props.currentDay}
                         setAddNoticeDesktop={setAddNoticeDesktop}
                         noticeData={noticeData}
+                        setShowPending={props.setShowPending}
                     />
                     <Alert 
                         showAlert={showAlert}
@@ -106,6 +120,7 @@ function Main(props) {
                     noticeData={noticeData}
                     base_url={base_url}
                     getNotices={getNotices}
+                    showPending={props.showPending}
                 />
             )    
         case "month": 

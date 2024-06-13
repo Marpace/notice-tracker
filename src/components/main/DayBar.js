@@ -15,11 +15,17 @@ function DayBar(props) {
         })
     }, [props.currentMonth])
 
+    function handleDayClick(index) {
+        props.setCurrentDay(index);
+        props.setShowPending(false);
+    }
+
+
     
     return (
         <div className={`day-bar ${props.currentScreen === "desktop" ? "hidden" : ""}`}>
             {days.map((day, index) => (
-                <span onClick={() => props.setCurrentDay(index)} className={`day-bar__day ${props.currentDay === index ? "chosen-day" : ""}`} key={index}>{index + 1}</span>
+                <span onClick={() => handleDayClick(index)} className={`day-bar__day ${props.currentDay === index ? "chosen-day" : ""}`} key={index}>{index + 1}</span>
             ))}
         </div>
     )

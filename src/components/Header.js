@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-function Header() {
+function Header(props) {
 
     const [menuIsOpen, setMenuIsOpen] = useState(false)
 
@@ -15,7 +15,11 @@ function Header() {
                 <p className="desktop-username__name">Pablo Almonacid</p> 
                 <p className="desktop-username__title">Assistant Manager</p>
             </div>
-            <div onClick={handleMenuClick} className="header__menu-icon">
+            <div className="menu-options">
+                <p onClick={() => props.setShowPending(true)} className="menu-options__option">Pending notices</p>
+                <p className="menu-options__option">Login</p>
+            </div>
+            <div onClick={handleMenuClick} className="header__menu-icon"> 
                 <div className="menu-icon-line"></div>
                 <div className="menu-icon-line"></div>
                 <div className="menu-icon-line"></div>
