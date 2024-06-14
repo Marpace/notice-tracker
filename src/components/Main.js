@@ -4,6 +4,7 @@ import DayNotices from "./main/DayNotices";
 import MonthNotices from "./main/MonthNotices";
 import NewItem from "./main/NewItem";
 import { useEffect, useState } from "react";
+import { calendar } from "../Data";
 
 function Main(props) {
 
@@ -21,18 +22,31 @@ function Main(props) {
 
     useEffect(() => {
         getNotices();
+        
     },[])
 
+    useEffect(() => {
+        if(noticeData.length > 0) {
+            setReminder(noticeData);
+        }
+    })
 
-    // Notification.requestPermission().then(prem => {
-    //     if(prem === "granted") {
-    //         const notification = new Notification("reminder", {
-    //             body: "this is a test"
-    //         })
-    //     }
-    // })
+    function setReminder(notices) {
+        const todayDate = new Date().getDate()
+        const noticesThisMonth = notices.filter(item => item.month === calendar[props.currentMonth].month).sort((a, b) => a.day - b.day)
+        const nextScheduledNotice = noticesThisMonth.find(item => item.day >= todayDate)
 
-    console.log(new Date().getHours())
+        const reminderDate = new Date()
+
+        // Notification.requestPermission().then(prem => {
+        //     if(prem === "granted") {
+        //         const notification = new Notification("reminder", {
+        //             body: "this is a test"
+        //         })
+        //     }
+        // })
+
+    }
  
     function getNotices() {
         fetch(`${base_url}/get-notices`, {
@@ -44,7 +58,7 @@ function Main(props) {
         .then(res => res.json())
         .then(res => {
             setNoticeData(res.data);  
-        })
+         })
         .catch(err => console.log(err))
     }
 

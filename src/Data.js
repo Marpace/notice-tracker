@@ -61,32 +61,3 @@ export const calendar = [
     },
 ]
 
-export const noticeData = [
-    {
-        month: "April",
-        day: 5,
-        title: "Semi-annual Kitchen Stack Cleaning",
-        scheduledDate: "March 14, 2024",
-        numberOfGuards: 1, 
-        completed: false,
-        menuIsOpen: false
-    },
-    {
-        month: "April",
-        day: 1,
-        title: "Balcony Bracket Inspection",
-        scheduledDate: "March 7, 2024",
-        numberOfGuards: 0, 
-        completed: false,
-        menuIsOpen: false
-    },
-    {
-        month: "April",
-        day: 11,
-        title: "Fan Coil Maintenance",
-        scheduledDate: "March 10, 2024",
-        numberOfGuards: 2, 
-        completed: true,
-        menuIsOpen: false
-    },
-]
