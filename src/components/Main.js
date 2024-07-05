@@ -9,8 +9,8 @@ import { calendar } from "../Data";
 function Main(props) {
 
     
-    const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
-    // const base_url = "http://localhost:8080";
+    // const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
+    const base_url = "http://localhost:8080";
 
     const [editedNotice, setEditedNotice] = useState(null);
     const [addNoticeDesktop, setAddNoticeDesktop] = useState(false);
@@ -18,34 +18,43 @@ function Main(props) {
     const [alertText, setAlertText] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [alertError, setAlertError] = useState(false);
+    const [reminderSet, setReminderSet] = useState(false);
 
 
     useEffect(() => {
         getNotices();
-        
     },[])
 
-    useEffect(() => {
-        if(noticeData.length > 0) {
-            setReminder(noticeData);
-        }
-    })
+    // useEffect(() => {
+    //     if(noticeData.length > 0 && !reminderSet) {
+    //         setReminder(noticeData);
+    //     }
+    // },[])
 
     function setReminder(notices) {
-        const todayDate = new Date().getDate()
-        const noticesThisMonth = notices.filter(item => item.month === calendar[props.currentMonth].month).sort((a, b) => a.day - b.day)
-        const nextScheduledNotice = noticesThisMonth.find(item => item.day >= todayDate)
+        if(reminderSet) return;
+        const noticesThisMonth = notices.filter(item => item.month === calendar[props.currentMonth].month && Number(item.year) === props.currentYear).sort((a, b) => a.day - b.day)
+        const nextScheduledNotice = noticesThisMonth.find(item => item.day >= props.currentDay)
+        const timeout = (new Date(`${nextScheduledNotice.noticeDate} 13:00:00`).getTime() - new Date().getTime())
+        
+        console.log(nextScheduledNotice)
+        console.log(timeout)
 
-        const reminderDate = new Date()
 
-        // Notification.requestPermission().then(prem => {
-        //     if(prem === "granted") {
-        //         const notification = new Notification("reminder", {
-        //             body: "this is a test"
-        //         })
-        //     }
-        // })
-
+        if(nextScheduledNotice && !nextScheduledNotice.completed) {
+            setTimeout(() => {
+                Notification.requestPermission().then(perm => {
+                    if(perm === "granted") { 
+                        const notification = new Notification("Notice reminder!", {
+                            body: nextScheduledNotice.title, 
+                            requireInteraction: true, 
+                            icon: "./assets/icons/alert-icon.svg"
+                        })
+                    }
+                })
+            }, timeout);
+        }
+        setReminderSet(true);
     }
  
     function getNotices() {
@@ -57,7 +66,8 @@ function Main(props) {
         })
         .then(res => res.json())
         .then(res => {
-            setNoticeData(res.data);  
+            setNoticeData(res.data);
+            setReminder(res.data);
          })
         .catch(err => console.log(err))
     }
@@ -80,7 +90,7 @@ function Main(props) {
                         noticeData={noticeData}
                         base_url={base_url}
                         getNotices={getNotices}
-                        showPending={props.showPending}
+                        filter={props.filter}
                     />
                     <NewItem 
                         prevScreen={props.prevScreen}
@@ -108,7 +118,7 @@ function Main(props) {
                         currentDay={props.currentDay}
                         setAddNoticeDesktop={setAddNoticeDesktop}
                         noticeData={noticeData}
-                        setShowPending={props.setShowPending}
+                        setFilter={props.setFilter}
                     />
                     <Alert 
                         showAlert={showAlert}
@@ -134,7 +144,7 @@ function Main(props) {
                     noticeData={noticeData}
                     base_url={base_url}
                     getNotices={getNotices}
-                    showPending={props.showPending}
+                    filter={props.filter}
                 />
             )    
         case "month": 

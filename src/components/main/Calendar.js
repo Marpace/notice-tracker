@@ -12,10 +12,16 @@ function Calendar(props) {
     const [screenWidth, setScreenWidth] = useState(null);
     const [monthChanged, setMonthChanged] = useState(false);
     const [cellClicked, setCellClicked] = useState(false);
+    const [useWideGrid, setUseWideGrid] = useState(false)
 
     useEffect(() => {
         setScreenWidth(window.screen.width)
     }, [])
+
+    //determines which grid to use base on viewport width
+    useEffect(() => {
+        if(window.innerWidth > 2199) setUseWideGrid(true);
+      }, [])
 
 
     //this sets the calendar days for the current/selected month 
@@ -46,6 +52,7 @@ function Calendar(props) {
                     if(i === 4 || i === 5) {
                         if(dateNumber > calendar[props.currentMonth].numberOfDays) {
                             cell.disabled = true;
+                            cell.date = null;
                         } 
                     } 
 
@@ -53,8 +60,7 @@ function Calendar(props) {
                     
                     const today = new Date();
                     if(cellClicked) {
-                        console.log(props.currentDay)
-                        if(dateNumber === props.currentDay + 1) cell.selected = true;
+                        if(dateNumber === props.currentDay) cell.selected = true;
                     } else {
                         if(dateNumber === today.getDate()
                             && props.currentMonth === today.getMonth()
@@ -105,13 +111,14 @@ function Calendar(props) {
             copy[rowIndex][dayIndex].selected = true;
             return copy;
         })
-        props.setCurrentDay(date - 1)
-        props.setShowPending(false);
+        props.setCurrentDay(date)
+        props.setFilter("day")
     }
 
     function handlePlusIconClick(date) {
         props.setAddNoticeDesktop(true);
-        props.setCurrentDay(date - 1)
+        props.setCurrentDay(date)
+        console.log(date)
     }
 
     return (
@@ -141,7 +148,8 @@ function Calendar(props) {
                         </div>
                     ))}
                 </div>
-                <img className="calendar__grid-outline" src="./assets/calendar-grid.svg"></img>
+                <img className={`calendar__grid-outline ${useWideGrid ? "hidden" : ""}`} src="./assets/calendar-grid.svg"></img>
+                <img className={`calendar__grid-outline ${useWideGrid ? "" : "hidden"}`} src="./assets/calendar-grid-wide.svg"></img>
             </div>
         </div> 
     )

@@ -27,7 +27,7 @@ function NewItem(props) {
    const [dateLabel, setDateLabel] = useState("Event date")
 
     useEffect(() => {
-        setDayValue(props.currentDay + 1)
+        setDayValue(props.currentDay)
         setMonthValue(calendar[props.currentMonth].month)
     }, [props.currentDay, props.currentMonth])
 
@@ -76,19 +76,22 @@ function NewItem(props) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                year: props.currentYear,
                 month: calendar[props.currentMonth].month,
-                day: props.currentDay + 1,
+                day: props.currentDay,
+                noticeDate: `${calendar[props.currentMonth].month} ${props.currentDay}, ${props.currentYear}`,
                 title: descriptionValue,
-                scheduledDate: dateValue,
+                eventDate: dateValue,
                 numberOfGuards: guardsValue,
                 completed: false,
                 menuIsOpen: false,
-                notes: notesValue,
+                notes: notesValue, 
                 showNotes: false,
                 noticeId: props.editedNotice ? props.editedNotice._id : null
             })
         })
         .then(res => {
+            console.log("Notice created")
             if(res.status === 201) props.getNotices();
             if(res.status === 500) props.setAlertError(true);
             return res.json()
@@ -153,7 +156,7 @@ function NewItem(props) {
         setValidateDate(false)
         setDateLabel("Event date");
         const chosenDate = new Date(`${monthValue} ${dayValue}, ${yearValue}`);
-        const currentDate = new Date(`${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}`)
+        const currentDate = new Date(`${calendar[props.currentMonth].month} ${props.currentDay}, ${props.currentYear}`)
         if(chosenDate < currentDate) {
             setDateLabel("Event date cannot be earlier than notice date");
             setValidateDate(true);

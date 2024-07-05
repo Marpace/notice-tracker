@@ -1,13 +1,12 @@
 .calendar {
     width: 700px;
-    max-width: 1000px;
     display: flex;
     flex-direction: column;
     @include responsive($desktop) {
         width: 900px;
     }
     @include responsive($desktop_large) {
-        width: 1000px;
+        width: 1400px;
     }
 
     &__months {
@@ -51,8 +50,8 @@
             font-size: 1.3rem;
         }
         @include responsive($desktop_large) {
-            width: calc(100% - 80px);
-            translate: 40px 0;
+            width: calc(100% - 151px);
+            translate: 74px 0;
         }
 
         &-item {
@@ -81,8 +80,8 @@
                 left: 21px;
             }
             @include responsive($desktop_large) {
-                top: 37px;
-                left: 24px;
+                top: 35px;
+                left: 33px;
             }
 
 
@@ -105,8 +104,8 @@
                         width: 122.7px;
                     }
                     @include responsive($desktop_large) {
-                        height: 109px;
-                        width: 136.3px;
+                        height: 104px;
+                        width: 190.8px;
                     }
 
                     .cell-date {

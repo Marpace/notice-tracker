@@ -534,7 +534,6 @@ body {
 
 .calendar {
   width: 700px;
-  max-width: 1000px;
   display: flex;
   flex-direction: column;
 }
@@ -545,7 +544,7 @@ body {
 }
 @media only screen and (min-width: 2200px) {
   .calendar {
-    width: 1000px;
+    width: 1400px;
   }
 }
 .calendar__months {
@@ -591,8 +590,8 @@ body {
 }
 @media only screen and (min-width: 2200px) {
   .calendar__days {
-    width: calc(100% - 80px);
-    translate: 40px 0;
+    width: calc(100% - 151px);
+    translate: 74px 0;
   }
 }
 .calendar__days-item {
@@ -622,8 +621,8 @@ body {
 }
 @media only screen and (min-width: 2200px) {
   .calendar__grid .calendar-cells {
-    top: 37px;
-    left: 24px;
+    top: 35px;
+    left: 33px;
   }
 }
 .calendar__grid .calendar-cells__row {
@@ -649,8 +648,8 @@ body {
 }
 @media only screen and (min-width: 2200px) {
   .calendar__grid .calendar-cells__row .row-cell {
-    height: 109px;
-    width: 136.3px;
+    height: 104px;
+    width: 190.8px;
   }
 }
 .calendar__grid .calendar-cells__row .row-cell .cell-date {

@@ -3,7 +3,6 @@ function Modal(props) {
     function deleteNotice() {
         props.setModalIsOpen(false);
         props.deleteItem();
-        props.getNotices();
     }
 
     return (

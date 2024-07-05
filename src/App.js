@@ -9,11 +9,11 @@ function App() {
 
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
-  const [currentDay, setCurrentDay] = useState(new Date().getDate() - 1);
+  const [currentDay, setCurrentDay] = useState(new Date().getDate());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentScreen, setCurrentScreen] = useState("month");
   const [prevScreen, setPrevScreen] = useState("");
-  const [showPending, setShowPending] = useState(false);
+  const [filter, setFilter] = useState("day")
 
   useEffect(() => {
     const screenWidth = window.screen.width;
@@ -27,11 +27,11 @@ function App() {
   return (
     <div className="app">
       <Header 
-        setShowPending={setShowPending}
+        setFilter={setFilter}
       />
       <MonthSection 
         currentScreen={currentScreen}
-        setCurrentScreen={setCurrentScreen} 
+        setCurrentScreen={setCurrentScreen}  
         currentMonth={currentMonth}
         setCurrentMonth={setCurrentMonth}
         currentDay={currentDay}
@@ -44,11 +44,11 @@ function App() {
         currentDay={currentDay}
         setCurrentDay={setCurrentDay}
         prevScreen={prevScreen}
-        setPrevScreen={setPrevScreen}
+        setPrevScreen={setPrevScreen} 
         setCurrentMonth={setCurrentMonth}
         currentYear={currentYear}
-        showPending={showPending}
-        setShowPending={setShowPending}
+        filter={filter}
+        setFilter={setFilter}
       />
     </div>
   );

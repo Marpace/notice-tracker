@@ -11,11 +11,12 @@ function DailyNotices(props) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currentNoticeId, setCurrentNoticeId] = useState(null);
     const [noticesHeader, setNoticesHeader] = useState("")
- 
+
+
     useEffect(() => {
         setNotices(() => {
             const arr = [];
-            if(props.showPending) {
+            if(props.filter === "pending") {
                 props.noticeData.map( notice => {
                     const noticeDate = new Date(`${notice.month} ${notice.day}, ${props.currentYear}`)
                     const today = new Date();
@@ -24,10 +25,19 @@ function DailyNotices(props) {
                         arr.push(notice)
                     }
                 })
+            } else if (props.filter === "overdue") {
+                props.noticeData.map( notice => {
+                    const noticeDate = new Date(`${notice.month} ${notice.day}, ${props.currentYear}`)
+                    const today = new Date();
+                    if(today > noticeDate && !notice.completed) {
+                        notice.menuIsOpen = false;
+                        arr.push(notice)
+                    }
+                })
             } else {
                 props.noticeData.map(notice => {
                     if(notice.month === calendar[props.currentMonth].month){
-                        if(notice.day === (props.currentDay + 1)) {
+                        if(notice.day === (props.currentDay)) {
                             notice.menuIsOpen = false;
                             arr.push(notice);
                         }
@@ -36,30 +46,33 @@ function DailyNotices(props) {
             }
             return arr;
         })
-    }, [props.noticeData, props.currentDay, props.currentMonth, props.showPending]) 
+    }, [props.noticeData, props.currentDay, props.currentMonth, props.filter]) 
 
     useEffect(() => {
         setNoticesHeader(() => {
             let header; 
 
             if(notices.length <= 0) {
-                header = `No notices scheduled for ${props.currentMonth === new Date().getMonth() && props.currentDay + 1 === new Date().getDate() 
+                header = `No notices scheduled for ${props.currentMonth === new Date().getMonth() && props.currentDay === new Date().getDate() 
                     ? "today" 
-                    : `${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}`}`
+                    : `${calendar[props.currentMonth].month} ${props.currentDay}, ${props.currentYear}`}`
             }
             else {
-                if(props.showPending) {
-                    header = "Pending notices"
+                if(props.filter === "pending") {
+                    header = "Pending notices";
+                    return header;
+                } 
+                if (props.filter === "overdue") {
+                    header = "Overdue notices";
                     return header;
                 }
-                header = `Notices to be sent ${props.currentMonth === new Date().getMonth() && props.currentDay + 1 === new Date().getDate() 
+                header = `Notices to be sent ${props.currentMonth === new Date().getMonth() && props.currentDay === new Date().getDate() 
                     ? "today:" 
-                    : `on ${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}`}`
+                    : `on ${calendar[props.currentMonth].month} ${props.currentDay}, ${props.currentYear}`}`
             }
-
             return header;
         })
-    }, [notices, props.showPending])
+    }, [notices, props.filter])
 
     function toggleMenu(index) {
         setNotices(prev => {
@@ -83,6 +96,10 @@ function DailyNotices(props) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({noticeId: currentNoticeId})
+        })
+        .then((res) => {
+            console.log("Item deleted")
+            props.getNotices()
         })
         .catch(err => console.log(err));
     }
@@ -141,7 +158,7 @@ function DailyNotices(props) {
             {notices.map((notice, index) => (
                 <div key={index} className="day-notices__item" style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
                     <p className="notice-title">{notice.title}</p>
-                    <p className="notice-scheduled-date">{`Scheduled for ${notice.scheduledDate}`}</p>
+                    <p className="notice-scheduled-date">{`Scheduled for ${notice.eventDate}`}</p>
                     <p className={`guards-required`}>{`${notice.numberOfGuards <= 0 ? "No escort guards required" : `${notice.numberOfGuards === 1 ? "Requires 1 escort guard" : `Requires ${notice.numberOfGuards} escort guards`}`}` }</p>
                     <img className={`completed ${notice.completed ? "" : "hidden"}`} src="./assets/icons/checkmark-icon.svg"></img>
                     <div onClick={() => toggleNotes(index)} className="show-notes">
@@ -166,7 +183,6 @@ function DailyNotices(props) {
                 currentScreen={props.currentScreen}     
                 currentDay={props.currentDay}
                 setCurrentDay={props.setCurrentDay}
-                setShowPending={props.setShowPending}
             />
             <Modal 
                 modalIsOpen={modalIsOpen}
