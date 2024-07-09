@@ -70,16 +70,17 @@ function Calendar(props) {
                     }
 
                     // Checks how many notices correspond to that day and adds them to the cell object
-                    let numberOfNotices = 0
+                    const noticesThisDay = [];
                     props.noticeData.forEach(notice => {
                         if(notice.month === calendar[props.currentMonth].month 
                         && notice.day === dateNumber) {
-                            numberOfNotices++
+                            noticesThisDay.push(notice.title)
                         }
                     })
                     cell = {
                         ...cell,
-                        numberOfNotices: numberOfNotices
+                        noticesThisDay: noticesThisDay,
+                        noticesOverTwo: noticesThisDay.length - 2
                     }
                     row.push(cell)
                     dateNumber++;
@@ -141,7 +142,10 @@ function Calendar(props) {
                                 <div onClick={(e) => handleCellClick(rowIndex, dayIndex, day.date, day.disabled)} key={dayIndex} className={`row-cell ${day.disabled ? "disabled-cell" : ""} ${day.selected ? "selected-cell" : ""}`}>
                                     <div className="cell-date">{day.date}</div>
                                     <img onClick={() => handlePlusIconClick(day.date)} className="cell-plus-icon" src="./assets/icons/cell-plus-icon.svg"></img>
-                                    <p className="cell-number-of-notices">{`${day.numberOfNotices > 0 ? `${day.numberOfNotices > 1 ? `• ${day.numberOfNotices} Notices` : "• 1 Notice"}` : ""}`}</p>
+                                    {day.noticesThisDay.map((item, itemIndex) => (
+                                        <p key={itemIndex} className="cell-number-of-notices">{itemIndex > 1 ? "" : `• ${item}`}</p>
+                                        ))}
+                                    <p className="cell-number-of-notices">{day.noticesOverTwo < 1 ? "" : `${day.noticesOverTwo} more`}</p>
                                 </div>
                             ))}
                             <div className="row-divider"></div>

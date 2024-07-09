@@ -96,6 +96,7 @@
                     justify-content: space-between;
                     flex-wrap: wrap;
                     cursor: pointer;
+                    overflow: hidden;
                     &:hover > .cell-plus-icon {
                         display: block;
                     }

@@ -47,6 +47,12 @@ $desktop_large: 2200px;
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Roboto-Black';
+  src: url('../../public/assets/fonts/Roboto/Roboto-Black.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
 
 // Reset +++++++++++++++++++++++++++++++++++++++
 body, button, input , textarea{

@@ -18,44 +18,36 @@ function Main(props) {
     const [alertText, setAlertText] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [alertError, setAlertError] = useState(false);
-    const [reminderSet, setReminderSet] = useState(false);
 
 
     useEffect(() => {
         getNotices();
     },[])
 
-    // useEffect(() => {
-    //     if(noticeData.length > 0 && !reminderSet) {
-    //         setReminder(noticeData);
-    //     }
-    // },[])
-
-    function setReminder(notices) {
-        if(reminderSet) return;
-        const noticesThisMonth = notices.filter(item => item.month === calendar[props.currentMonth].month && Number(item.year) === props.currentYear).sort((a, b) => a.day - b.day)
-        const nextScheduledNotice = noticesThisMonth.find(item => item.day >= props.currentDay)
-        const timeout = (new Date(`${nextScheduledNotice.noticeDate} 13:00:00`).getTime() - new Date().getTime())
-        
-        console.log(nextScheduledNotice)
-        console.log(timeout)
-
-
-        if(nextScheduledNotice && !nextScheduledNotice.completed) {
-            setTimeout(() => {
-                Notification.requestPermission().then(perm => {
-                    if(perm === "granted") { 
-                        const notification = new Notification("Notice reminder!", {
-                            body: nextScheduledNotice.title, 
-                            requireInteraction: true, 
-                            icon: "./assets/icons/alert-icon.svg"
-                        })
-                    }
-                })
-            }, timeout);
+    //sets reminder for next notice
+    useEffect(() => {
+        let reminderTimeout;
+        if(noticeData.length > 0) {
+            const noticesThisMonth = noticeData.filter(item => item.month === calendar[props.currentMonth].month && Number(item.year) === props.currentYear).sort((a, b) => a.day - b.day)
+            const nextScheduledNotice = noticesThisMonth.find(item => item.day >= props.currentDay)
+            const timeout = (new Date(`${nextScheduledNotice.noticeDate} 13:00:00`).getTime() - new Date().getTime())
+    
+            if(nextScheduledNotice && !nextScheduledNotice.completed && timeout > 0) { 
+                reminderTimeout = setTimeout(() => {
+                    Notification.requestPermission().then(perm => {
+                        if(perm === "granted") { 
+                            const notification = new Notification("Notice reminder!", {
+                                body: nextScheduledNotice.title, 
+                                requireInteraction: true, 
+                                icon: "./assets/icons/alert-icon.svg"
+                            })
+                        }
+                    })
+                }, timeout);
+            }
         }
-        setReminderSet(true);
-    }
+        return () => clearTimeout(reminderTimeout)
+    },[noticeData])
  
     function getNotices() {
         fetch(`${base_url}/get-notices`, {
@@ -67,7 +59,6 @@ function Main(props) {
         .then(res => res.json())
         .then(res => {
             setNoticeData(res.data);
-            setReminder(res.data);
          })
         .catch(err => console.log(err))
     }

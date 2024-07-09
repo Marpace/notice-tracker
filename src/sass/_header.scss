@@ -82,6 +82,9 @@
                 font-family: "Roboto-Medium";
                 cursor: pointer;
             }
+            &__option-selected {
+                font-family: "Roboto-Black";
+            }
         }
     }
 }

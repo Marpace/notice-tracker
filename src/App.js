@@ -28,6 +28,7 @@ function App() {
     <div className="app">
       <Header 
         setFilter={setFilter}
+        filter={filter}
       />
       <MonthSection 
         currentScreen={currentScreen}

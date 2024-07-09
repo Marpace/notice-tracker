@@ -16,8 +16,8 @@ function Header(props) {
                 <p className="desktop-username__title">Assistant Manager</p>
             </div>
             <div className="menu-options">
-                <p onClick={() => props.setFilter("pending")} className="menu-options__option">Pending Notices</p>
-                <p onClick={() => props.setFilter("overdue")} className="menu-options__option">Overdue Notices</p>
+                <p onClick={() => props.setFilter("pending")} className={`${props.filter === "pending" ? "menu-options__option-selected" : ""} menu-options__option`}>Pending Notices</p>
+                <p onClick={() => props.setFilter("overdue")} className={`${props.filter === "overdue" ? "menu-options__option-selected" : ""} menu-options__option`}>Overdue Notices</p>
                 <p className="menu-options__option">Login</p>
             </div>
             <div onClick={handleMenuClick} className="header__menu-icon"> 

@@ -22,6 +22,12 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "Roboto-Black";
+  src: url("../../public/assets/fonts/Roboto/Roboto-Black.ttf") format("truetype");
+  font-style: normal;
+  font-display: swap;
+}
 body, button, input, textarea {
   font-family: "Roboto-Regular";
   color: #F4FFFD;
@@ -166,6 +172,9 @@ body {
     font-size: 1rem;
     font-family: "Roboto-Medium";
     cursor: pointer;
+  }
+  .header .menu-options__option-selected {
+    font-family: "Roboto-Black";
   }
 }
 
@@ -636,6 +645,7 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   cursor: pointer;
+  overflow: hidden;
 }
 .calendar__grid .calendar-cells__row .row-cell:hover > .cell-plus-icon {
   display: block;

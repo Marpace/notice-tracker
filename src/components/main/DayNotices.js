@@ -18,16 +18,16 @@ function DailyNotices(props) {
             const arr = [];
             if(props.filter === "pending") {
                 props.noticeData.map( notice => {
-                    const noticeDate = new Date(`${notice.month} ${notice.day}, ${props.currentYear}`)
+                    const noticeDate = new Date(notice.noticeDate)
                     const today = new Date();
-                    if(today < noticeDate) {
+                    if(today < noticeDate && !notice.completed) {
                         notice.menuIsOpen = false;
                         arr.push(notice)
                     }
                 })
             } else if (props.filter === "overdue") {
                 props.noticeData.map( notice => {
-                    const noticeDate = new Date(`${notice.month} ${notice.day}, ${props.currentYear}`)
+                    const noticeDate = new Date(`${notice.noticeDate} 23:59:59`)
                     const today = new Date();
                     if(today > noticeDate && !notice.completed) {
                         notice.menuIsOpen = false;
@@ -53,9 +53,12 @@ function DailyNotices(props) {
             let header; 
 
             if(notices.length <= 0) {
-                header = `No notices scheduled for ${props.currentMonth === new Date().getMonth() && props.currentDay === new Date().getDate() 
+                if(props.filter === "overdue") header = "Notices are up to date"
+                else {
+                    header = `No notices scheduled for ${props.currentMonth === new Date().getMonth() && props.currentDay === new Date().getDate() 
                     ? "today" 
                     : `${calendar[props.currentMonth].month} ${props.currentDay}, ${props.currentYear}`}`
+                }
             }
             else {
                 if(props.filter === "pending") {
