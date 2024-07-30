@@ -7,10 +7,11 @@ import Modal from "./Modal";
 function DailyNotices(props) {
 
 
-    const [notices, setNotices] = useState([])
+    const [notices, setNotices] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currentNoticeId, setCurrentNoticeId] = useState(null);
-    const [noticesHeader, setNoticesHeader] = useState("")
+    const [noticesHeader, setNoticesHeader] = useState("");
+    const [allCompleted, setAllCompleted] = useState(false);
 
 
     useEffect(() => {
@@ -107,9 +108,8 @@ function DailyNotices(props) {
         .catch(err => console.log(err));
     }
 
-    function markAsCompleted(e, index) {
-        toggleMenu(index);
-        const noticeId = e.target.id;
+    function markAsCompleted(noticeId, index) {
+        if(index) toggleMenu(index);
         fetch(`${props.base_url}/change-completed-status`, {
             method: "POST",
             headers: {
@@ -122,11 +122,6 @@ function DailyNotices(props) {
             props.getNotices()
         })
         .catch(err => console.log(err));
-        // setNotices(prev => {
-        //     const copy = [...prev]; 
-        //     copy[index].completed = copy[index].completed ? false : true;
-        //     return copy;
-        // })
     }
  
     function handleEditClick(e, notice) {
@@ -153,11 +148,25 @@ function DailyNotices(props) {
             return copy;
         })
     }
+
+    function markAllAsCompleted() {
+        notices.forEach(notice => {
+            markAsCompleted(notice._id)
+        })
+        setAllCompleted(prev => prev === true ? false : true)
+    }
     
 
     return (
         <div className={`day-notices ${props.currentScreen === "desktop" && props.addNoticeDesktop ? "hidden" : ""}`}>
-            <p className={`day-notices__desktop`}>{noticesHeader}</p>
+            <div className="day-notices__header">
+                <p className={`day-notices__header-title`}>{noticesHeader}</p>
+                <img 
+                    title="Mark all as completed"
+                    onClick={markAllAsCompleted} 
+                    className={`day-notices__header-icon ${props.filter === "overdue" && notices.length > 0 ? "" : "hidden"}`} 
+                    src={`./assets/icons/${allCompleted ? "checkmark-icon" : "complete-all-icon"}.svg`}></img>
+            </div>
             {notices.map((notice, index) => (
                 <div key={index} className="day-notices__item" style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
                     <p className="notice-title">{notice.title}</p>
@@ -177,7 +186,7 @@ function DailyNotices(props) {
                     <div className={`notice-menu ${notice.menuIsOpen ? "show-flex" : ""}`}>
                         <p id={notice._id} onClick={openModal} className="notice-menu-option">Delete</p>
                         <p id={index} onClick={(e) => handleEditClick(e, notice)} className="notice-menu-option">Edit</p>
-                        <p id={notice._id} onClick={(e) => markAsCompleted(e, index )} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
+                        <p id={notice._id} onClick={(e) => markAsCompleted(e.target.id, index )} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
                     </div>
                 </div>
             ))}

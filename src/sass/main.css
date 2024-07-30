@@ -283,10 +283,17 @@ body {
     padding: 0;
   }
 }
-.day-notices__desktop {
+.day-notices__header {
+  display: flex;
+  justify-content: space-between;
+}
+.day-notices__header-title {
   font-size: 1rem;
   font-family: "Roboto-Medium";
   text-decoration: underline;
+}
+.day-notices__header-icon {
+  cursor: pointer;
 }
 .day-notices__item {
   position: relative;

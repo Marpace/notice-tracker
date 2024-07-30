@@ -13,10 +13,19 @@
         padding: 0;
     }
 
-    &__desktop {
-        font-size: 1rem;
-        font-family: "Roboto-Medium";
-        text-decoration: underline;
+    &__header {
+        display: flex;
+        justify-content: space-between;
+
+        &-title {
+            font-size: 1rem;
+            font-family: "Roboto-Medium";
+            text-decoration: underline;
+        }
+        &-icon {
+            cursor: pointer;
+        }
+
     }
 
     &__item {
