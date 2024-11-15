@@ -109,36 +109,48 @@ function DailyNotices(props) {
     }
 
     function markAsCompleted(noticeId, index) {
-        if(index) toggleMenu(index);
-        fetch(`${props.base_url}/change-completed-status`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({noticeId: noticeId})
-        })
-        .then(res => {
-            console.log(res.status)
-            props.getNotices()
-        })
-        .catch(err => console.log(err));
+        if(!props.loggedIn) props.setShowLogin(true);
+        else {
+            if(index) toggleMenu(index);
+            fetch(`${props.base_url}/change-completed-status`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({noticeId: noticeId})
+            })
+            .then(res => {
+                console.log(res.status)
+                props.getNotices()
+            })
+            .catch(err => console.log(err));
+        } 
     }
  
-    function handleEditClick(e, notice) {
-        if(props.currentScreen === "desktop"){
-            props.setAddNoticeDesktop(true)
-        } else {
-            props.setPrevScreen(props.currentScreen);
-            props.setCurrentScreen("new-item");
+    function handleDeleteClick(e) {
+        if(!props.loggedIn) props.setShowLogin(true);
+        else {
+            openModal(e); 
         }
-        props.setEditedNotice(notice);
-
-        const index = Number(e.target.id);
-        setNotices(prev => {
-            const copy = [...prev]; 
-            copy[index].menuIsOpen = false; 
-            return copy;
-        })
+    }
+    function handleEditClick(e, notice) {
+        if(!props.loggedIn) props.setShowLogin(true);
+        else {
+            if(props.currentScreen === "desktop"){
+                props.setAddNoticeDesktop(true)
+            } else {
+                props.setPrevScreen(props.currentScreen);
+                props.setCurrentScreen("new-item");
+            }
+            props.setEditedNotice(notice);
+    
+            const index = Number(e.target.id);
+            setNotices(prev => {
+                const copy = [...prev]; 
+                copy[index].menuIsOpen = false; 
+                return copy;
+            })
+        }
     }
 
     function toggleNotes(index) {
@@ -162,10 +174,10 @@ function DailyNotices(props) {
             <div className="day-notices__header">
                 <p className={`day-notices__header-title`}>{noticesHeader}</p>
                 <img 
-                    title="Mark all as completed"
-                    onClick={markAllAsCompleted} 
-                    className={`day-notices__header-icon ${props.filter === "overdue" && notices.length > 0 ? "" : "hidden"}`} 
-                    src={`./assets/icons/${allCompleted ? "checkmark-icon" : "complete-all-icon"}.svg`}></img>
+                title="Mark all as completed"
+                onClick={markAllAsCompleted} 
+                className={`day-notices__header-icon ${props.filter === "overdue" && notices.length > 0 ? "" : "hidden"}`} 
+                src={`./assets/icons/${allCompleted ? "checkmark-icon" : "complete-all-icon"}.svg`}></img>
             </div>
             {notices.map((notice, index) => (
                 <div key={index} className="day-notices__item" style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
@@ -184,9 +196,9 @@ function DailyNotices(props) {
                         <span id={index} className="dot"></span>
                     </div>
                     <div className={`notice-menu ${notice.menuIsOpen ? "show-flex" : ""}`}>
-                        <p id={notice._id} onClick={openModal} className="notice-menu-option">Delete</p>
+                        <p id={notice._id} onClick={(e) => handleDeleteClick(e)} className="notice-menu-option">Delete</p>
                         <p id={index} onClick={(e) => handleEditClick(e, notice)} className="notice-menu-option">Edit</p>
-                        <p id={notice._id} onClick={(e) => markAsCompleted(e.target.id, index )} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
+                        <p id={notice._id} onClick={(e) => markAsCompleted(e, index)} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
                     </div>
                 </div>
             ))}

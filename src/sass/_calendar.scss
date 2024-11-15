@@ -143,6 +143,20 @@
                     }
                 }
             }
+            &__loader {
+                translate: 0 50px;
+                color: $light_green;
+                font-family: "Roboto-Medium";
+                font-size: 1.2rem;
+                animation-name: loader;
+                animation-duration: 1700ms;
+                animation-iteration-count: infinite;
+            }
+            @keyframes loader {
+                0% {opacity: 1;}
+                50% {opacity: 0;}
+                100% {opacity: 1;}
+            }
         }
     }
 }

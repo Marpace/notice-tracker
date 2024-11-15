@@ -12,7 +12,7 @@ function Calendar(props) {
     const [screenWidth, setScreenWidth] = useState(null);
     const [monthChanged, setMonthChanged] = useState(false);
     const [cellClicked, setCellClicked] = useState(false);
-    const [useWideGrid, setUseWideGrid] = useState(false)
+    const [useWideGrid, setUseWideGrid] = useState(false);
 
     useEffect(() => {
         setScreenWidth(window.screen.width)
@@ -28,7 +28,7 @@ function Calendar(props) {
     useEffect(() => {
         // gets the starting day of the week for the current or selected month
         const startingDay = new Date(`${props.currentMonth + 1} 1, ${props.currentYear}`).getDay()
-        if(monthChanged) props.setCurrentDay(0);
+        if(monthChanged) props.setCurrentDay(1);
 
         setCalendarDays(prev => {
             const arr = [];
@@ -43,7 +43,7 @@ function Calendar(props) {
                             cell = {disabled: true}
                             dateNumber--;
                         } 
-                        else if(n === startingDay && monthChanged) {
+                        else if(n === startingDay && monthChanged && !cellClicked) {
                             cell.selected = true
                         } 
                     } 
@@ -96,6 +96,7 @@ function Calendar(props) {
         props.setCurrentMonth(index);
         setSelectedMonth(index);
         setMonthChanged(true);
+        console.log(cellClicked)
     }
 
     function handleCellClick(rowIndex, dayIndex, date, disabled) {
@@ -117,9 +118,12 @@ function Calendar(props) {
     }
 
     function handlePlusIconClick(date) {
-        props.setAddNoticeDesktop(true);
-        props.setCurrentDay(date)
-        console.log(date)
+        if(!props.loggedIn) props.setShowLogin(true); 
+        else {
+            props.setAddNoticeDesktop(true);
+            props.setCurrentDay(date)
+            console.log(date)
+        }
     }
 
     return (
@@ -151,6 +155,7 @@ function Calendar(props) {
                             <div className="row-divider"></div>
                         </div>
                     ))}
+                    <div className={`calendar-cells__loader ${props.loadingNotices ? "" : "hidden"}`}>Loading...</div>
                 </div>
                 <img className={`calendar__grid-outline ${useWideGrid ? "hidden" : ""}`} src="./assets/calendar-grid.svg"></img>
                 <img className={`calendar__grid-outline ${useWideGrid ? "" : "hidden"}`} src="./assets/calendar-grid-wide.svg"></img>

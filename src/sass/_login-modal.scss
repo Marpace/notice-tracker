@@ -1,0 +1,73 @@
+.login-modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__body {
+        width: 90vw;
+        max-width: 300px;
+        background-color: $light_blue;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding: 30px;
+
+        &-title {
+            color: $dark_blue;
+            font-family: "Roboto-Bold";
+            font-size: 1.6rem;
+        }
+
+        .error-message {
+            color: $error_red;
+        }
+        &-inputs {
+            width: 100%;
+            &-group {
+                display: flex;
+                flex-direction: column;
+                margin-top: 10px;
+
+                .login-input {
+                    height: 30px;
+                    color: $dark_blue;
+                    padding: 0 5px;
+                }
+                .login-input-label {
+                    color: $dark_blue;
+                }
+            }
+        }
+        &-buttons {
+            display: flex;
+            gap: 10px;
+            .login-btn {
+                width: 100px;
+                height: 30px;
+                color: $light_blue;
+                background-color: $dark_blue;
+                border: none;
+                transition: 100ms;
+                cursor: pointer;
+
+                &:hover {
+                    color: $dark_blue;
+                    background-color: $light_blue;
+                    border: 1px solid $dark_blue;
+                }
+            }
+        }
+        .forgot-password {
+            color: $dark_blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}

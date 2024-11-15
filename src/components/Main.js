@@ -9,8 +9,7 @@ import { calendar } from "../Data";
 function Main(props) {
 
     
-    const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
-    // const base_url = "http://localhost:8080";
+  
 
     const [editedNotice, setEditedNotice] = useState(null);
     const [addNoticeDesktop, setAddNoticeDesktop] = useState(false);
@@ -18,6 +17,7 @@ function Main(props) {
     const [alertText, setAlertText] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [alertError, setAlertError] = useState(false);
+    const [loadingNotices, setLoadingNotices] = useState(true);
 
 
     useEffect(() => {
@@ -51,7 +51,7 @@ function Main(props) {
     },[noticeData])
  
     function getNotices() {
-        fetch(`${base_url}/get-notices`, {
+        fetch(`${props.base_url}/get-notices`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -60,6 +60,7 @@ function Main(props) {
         .then(res => res.json())
         .then(res => {
             setNoticeData(res.data);
+            setLoadingNotices(false);
          })
         .catch(err => console.log(err))
     }
@@ -80,9 +81,11 @@ function Main(props) {
                         setAddNoticeDesktop={setAddNoticeDesktop}
                         addNoticeDesktop={addNoticeDesktop}
                         noticeData={noticeData}
-                        base_url={base_url}
+                        base_url={props.base_url}
                         getNotices={getNotices}
                         filter={props.filter}
+                        setShowLogin={props.setShowLogin}
+                        loggedIn={props.loggedIn}
                     />
                     <NewItem 
                         prevScreen={props.prevScreen}
@@ -95,7 +98,7 @@ function Main(props) {
                         currentMonth={props.currentMonth}
                         currentDay={props.currentDay}
                         currentYear={props.currentYear}
-                        base_url={base_url}
+                        base_url={props.base_url}
                         getNotices={getNotices}
                         setAlertText={setAlertText}
                         setShowAlert={setShowAlert}
@@ -111,6 +114,9 @@ function Main(props) {
                         setAddNoticeDesktop={setAddNoticeDesktop}
                         noticeData={noticeData}
                         setFilter={props.setFilter}
+                        loadingNotices={loadingNotices}
+                        setShowLogin={props.setShowLogin}
+                        loggedIn={props.loggedIn}
                     />
                     <Alert 
                         showAlert={showAlert}
@@ -134,7 +140,7 @@ function Main(props) {
                     setAddNoticeDesktop={setAddNoticeDesktop}
                     addNoticeDesktop={addNoticeDesktop}
                     noticeData={noticeData}
-                    base_url={base_url}
+                    base_url={props.base_url}
                     getNotices={getNotices}
                     filter={props.filter}
                 />
@@ -161,7 +167,7 @@ function Main(props) {
                     currentMonth={props.currentMonth}
                     currentDay={props.currentDay}
                     currentYear={props.currentYear}
-                    base_url={base_url}
+                    base_url={props.base_url}
                     getNotices={getNotices}
                     setAlertText={setAlertText}
                     setShowAlert={setShowAlert}

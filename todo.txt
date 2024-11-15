@@ -1,3 +1,17 @@
-- DONE - Add "see pending notices" option
+** TO DO** 
+✔ Add "see pending notices" option
 - Add user login
+- loader 
 
+
+
+
+
+
+
+
+
+**ISSUES**
+- When clicking on a different month, old cell is still selected 
+✔ When clicking on a different month, header show date as 0 
+- 

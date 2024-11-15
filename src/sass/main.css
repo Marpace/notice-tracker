@@ -142,11 +142,11 @@ body {
     color: #153B50;
   }
   .header .desktop-username {
-    width: 200px;
+    width: 300px;
     display: block;
     color: #F4FFFD;
     position: absolute;
-    right: -220px;
+    right: -320px;
   }
   .header .desktop-username__name {
     font-size: 1.3rem;
@@ -697,6 +697,26 @@ body {
 .calendar__grid .calendar-cells__row .disabled-cell:hover > .cell-plus-icon {
   display: none;
 }
+.calendar__grid .calendar-cells__loader {
+  translate: 0 50px;
+  color: #16F4D0;
+  font-family: "Roboto-Medium";
+  font-size: 1.2rem;
+  animation-name: loader;
+  animation-duration: 1700ms;
+  animation-iteration-count: infinite;
+}
+@keyframes loader {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
 .alert {
   height: 30px;
@@ -782,4 +802,74 @@ body {
 .modal__body-buttons .modal-btn:hover {
   background-color: #16F4D0;
   color: #153B50;
+}
+
+.login-modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-modal__body {
+  width: 90vw;
+  max-width: 300px;
+  background-color: #F4FFFD;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 30px;
+}
+.login-modal__body-title {
+  color: #153B50;
+  font-family: "Roboto-Bold";
+  font-size: 1.6rem;
+}
+.login-modal__body .error-message {
+  color: rgb(209, 16, 16);
+}
+.login-modal__body-inputs {
+  width: 100%;
+}
+.login-modal__body-inputs-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.login-modal__body-inputs-group .login-input {
+  height: 30px;
+  color: #153B50;
+  padding: 0 5px;
+}
+.login-modal__body-inputs-group .login-input-label {
+  color: #153B50;
+}
+.login-modal__body-buttons {
+  display: flex;
+  gap: 10px;
+}
+.login-modal__body-buttons .login-btn {
+  width: 100px;
+  height: 30px;
+  color: #F4FFFD;
+  background-color: #153B50;
+  border: none;
+  transition: 100ms;
+  cursor: pointer;
+}
+.login-modal__body-buttons .login-btn:hover {
+  color: #153B50;
+  background-color: #F4FFFD;
+  border: 1px solid #153B50;
+}
+.login-modal__body .forgot-password {
+  color: #153B50;
+  text-decoration: underline;
+  cursor: pointer;
 }/*# sourceMappingURL=main.css.map */
