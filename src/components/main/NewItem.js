@@ -9,7 +9,7 @@ function NewItem(props) {
    const [monthValue, setMonthValue] = useState(calendar[props.currentMonth].month)
    const [dayValue, setDayValue] = useState(props.currentDay + 1)
    const [yearValue, setYearValue] = useState(props.currentYear)
-   const [guardsValue, setGuardsValue] = useState("");
+   const [guardsValue, setGuardsValue] = useState(0);
    const [notesValue, setNotesValue] = useState("");
 
    const [monthMenuOpen, setMonthMenuOpen] = useState(false)
@@ -34,7 +34,7 @@ function NewItem(props) {
     //If editing an existing notice
    useEffect(() => {
     if(props.editedNotice) {
-        const date = props.editedNotice.scheduledDate;
+        const date = props.editedNotice.eventDate;
         const month = date.split(" ")[0];
         const day = date.slice((date.indexOf(" ") + 1), (date.indexOf(",")));
 
@@ -42,7 +42,7 @@ function NewItem(props) {
         setMonthValue(month)
         setDayValue(day)
         setDescriptionValue(props.editedNotice.title);
-        setGuardsValue(props.editedNotice.numberOfGuards);
+        setGuardsValue(props.editedNotice.numberOfGuards === null ? 0 : props.editedNotice.numberOfGuards);
     }
    }, [props.editedNotice])
 
@@ -73,6 +73,7 @@ function NewItem(props) {
         fetch(`${props.base_url}/save-notice`, {
             method: "POST",
             headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
@@ -170,7 +171,6 @@ function NewItem(props) {
                 <div className="new-item__form-group">
                     <input 
                         type="text" 
-                        required
                         className={`form-input ${validateDescription ? "field-required" : ""}`} 
                         value={descriptionValue} 
                         onChange={(e) => setDescriptionValue(e.target.value)}>

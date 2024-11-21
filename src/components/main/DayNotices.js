@@ -97,6 +97,7 @@ function DailyNotices(props) {
         fetch(`${props.base_url}/delete-notice`, {
             method: "POST",
             headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({noticeId: currentNoticeId})
@@ -115,6 +116,7 @@ function DailyNotices(props) {
             fetch(`${props.base_url}/change-completed-status`, {
                 method: "POST",
                 headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({noticeId: noticeId})

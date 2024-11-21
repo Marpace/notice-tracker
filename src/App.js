@@ -4,12 +4,13 @@ import MonthSection from "./components/MonthSection";
 import { useEffect, useState } from "react";
 import Main from "./components/Main";
 import Login from "./components/auth/LoginModal";
+import Alert from "./components/main/Alert";
 
 
 function App() {
 
-    // const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
-    const base_url = "http://localhost:8080";
+    const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
+    // const base_url = "http://localhost:8080";
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentDay, setCurrentDay] = useState(new Date().getDate());
@@ -22,6 +23,9 @@ function App() {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loggedUserName, setLoggedUserName] = useState("");
   const [loggedUserPosition, setLoggedUserPosition] = useState("");
+  const [alertText, setAlertText] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertError, setAlertError] = useState(false);
 
   useEffect(() => {
     const screenWidth = window.screen.width;
@@ -29,6 +33,39 @@ function App() {
       setCurrentScreen("desktop")
     }
   }, [])
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const expiryDate = localStorage.getItem('expiryDate');
+    if (!token) {
+      return;
+    }
+    if (new Date(expiryDate) <= new Date()) {
+      userLogout();
+      return;
+    }
+    const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime();
+    setLoggedIn(true);
+    setAutoLogout(remainingMilliseconds);
+  }, []);
+
+  function userLogout() { 
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("expiryDate");
+    localStorage.removeItem("name");
+    localStorage.removeItem("position");
+    setLoggedUserName("");
+    setLoggedUserPosition("");
+    setLoggedIn(false);
+    // setToken(null);
+  }
+
+  function setAutoLogout(milliseconds) {
+    setTimeout(() => {
+      userLogout();
+    }, milliseconds);
+  };
 
 
   return (
@@ -39,6 +76,8 @@ function App() {
         setShowLogin={setShowLogin}
         loggedUserName={loggedUserName}
         loggedUserPosition={loggedUserPosition}
+        loggedIn={loggedIn}
+        userLogout={userLogout}
       />
       <MonthSection 
         currentScreen={currentScreen}
@@ -63,15 +102,29 @@ function App() {
         setShowLogin={setShowLogin}
         base_url={base_url}
         loggedIn={loggedIn}
+        setAlertText={setAlertText}
+        setShowAlert={setShowAlert}
+        setAlertError={setAlertError}
       />
       <Login 
         showLogin={showLogin}
         setShowLogin={setShowLogin}
         setLoggedIn={setLoggedIn}
         setLoadingLogin={setLoadingLogin}
+        loadingLogin={loadingLogin}
         base_url={base_url}
         setLoggedUserName={setLoggedUserName}
         setLoggedUserPosition={setLoggedUserPosition}
+        userLogout={userLogout}
+        setAutoLogout={setAutoLogout}
+        setAlertText={setAlertText}
+        setShowAlert={setShowAlert}
+        setAlertError={setAlertError}
+      />
+      <Alert 
+        showAlert={showAlert}
+        alertText={alertText}
+        alertError={alertError} 
       />
     </div>
   );

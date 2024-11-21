@@ -51,6 +51,9 @@
             .login-btn {
                 width: 100px;
                 height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 color: $light_blue;
                 background-color: $dark_blue;
                 border: none;
@@ -63,6 +66,25 @@
                     border: 1px solid $dark_blue;
                 }
             }
+            .loading-login {
+                width: 20px;
+                height: 20px;
+                border: 2px solid #16F4D0;
+                border-bottom-color: transparent;
+                border-radius: 50%;
+                display: inline-block;
+                box-sizing: border-box;
+                animation: rotation 1s linear infinite;
+            }
+            
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            } 
         }
         .forgot-password {
             color: $dark_blue;

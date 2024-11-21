@@ -722,6 +722,7 @@ body {
   height: 30px;
   width: 0px;
   position: fixed;
+  left: 213px;
   top: 90px;
   overflow: hidden;
   animation-name: showAlert;
@@ -857,6 +858,9 @@ body {
 .login-modal__body-buttons .login-btn {
   width: 100px;
   height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #F4FFFD;
   background-color: #153B50;
   border: none;
@@ -867,6 +871,24 @@ body {
   color: #153B50;
   background-color: #F4FFFD;
   border: 1px solid #153B50;
+}
+.login-modal__body-buttons .loading-login {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #16F4D0;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .login-modal__body .forgot-password {
   color: #153B50;

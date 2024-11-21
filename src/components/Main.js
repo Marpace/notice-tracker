@@ -14,9 +14,9 @@ function Main(props) {
     const [editedNotice, setEditedNotice] = useState(null);
     const [addNoticeDesktop, setAddNoticeDesktop] = useState(false);
     const [noticeData, setNoticeData] = useState([]);
-    const [alertText, setAlertText] = useState("");
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertError, setAlertError] = useState(false);
+    // const [alertText, setAlertText] = useState("");
+    // const [showAlert, setShowAlert] = useState(false);
+    // const [alertError, setAlertError] = useState(false);
     const [loadingNotices, setLoadingNotices] = useState(true);
 
 
@@ -100,9 +100,9 @@ function Main(props) {
                         currentYear={props.currentYear}
                         base_url={props.base_url}
                         getNotices={getNotices}
-                        setAlertText={setAlertText}
-                        setShowAlert={setShowAlert}
-                        setAlertError={setAlertError}
+                        setAlertText={props.setAlertText}
+                        setShowAlert={props.setShowAlert}
+                        setAlertError={props.setAlertError}
                     />
                     <Calendar 
                         currentScreen={props.currentScreen}
@@ -118,11 +118,11 @@ function Main(props) {
                         setShowLogin={props.setShowLogin}
                         loggedIn={props.loggedIn}
                     />
-                    <Alert 
+                    {/* <Alert 
                         showAlert={showAlert}
                         alertText={alertText}
                         alertError={alertError} 
-                    />
+                    /> */}
                 </div>
             )
                     
@@ -169,9 +169,9 @@ function Main(props) {
                     currentYear={props.currentYear}
                     base_url={props.base_url}
                     getNotices={getNotices}
-                    setAlertText={setAlertText}
-                    setShowAlert={setShowAlert}
-                    setAlertError={setAlertError}
+                    setAlertText={props.setAlertText}
+                    setShowAlert={props.setShowAlert}
+                    setAlertError={props.setAlertError}
                 />
             )
         default:
