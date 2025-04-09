@@ -9,8 +9,8 @@ import Alert from "./components/main/Alert";
 
 function App() {
 
-    // const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
-    const base_url = "http://localhost:8080";
+    const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
+    // const base_url = "http://localhost:8080";
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentDay, setCurrentDay] = useState(new Date().getDate());
