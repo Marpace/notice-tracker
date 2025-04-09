@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: flex-end;
     margin-top: 40px;
-    border-bottom: 1px solid $light_blue;
+    border-bottom: 1px solid $dark_blue;
     padding-bottom: 5px;
 
     .month-container {
@@ -17,7 +17,7 @@
         .month-selection {
             position: absolute;
             top: 100%;
-            background-color: $light_blue;
+            background-color: $dark_blue;
             z-index: 10;
             padding: 5px 0;
 
@@ -28,7 +28,7 @@
                 padding: 5px 10px;
             }
             .selected-month {
-                background-color: $light_green;
+                background-color: $orange;
             }
         }
     }
@@ -49,7 +49,7 @@
                 top: 0;
                 left: 50%;
                 translate: -50% 0;
-                background-color: $light_blue;
+                background-color: $dark_blue;
 
                 &:nth-child(2) {
                     rotate: 90deg;

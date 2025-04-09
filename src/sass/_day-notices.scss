@@ -29,6 +29,9 @@
     }
 
     &__item {
+        padding: 15px;
+        background-color: $darker_beige;
+        border-radius: 5px;
         position: relative;
         min-height: 60px;
         animation-name: fadeIn;
@@ -42,16 +45,21 @@
             font-size: 1rem;
             font-family: "Roboto-Medium";
             margin-bottom: 5px;
+            color: $beige;
+        }
+        .notice-scheduled-date {
+            color: $beige;
         }
         .guards-required {
             margin-top: 5px;
-            color: $light_green;
+            color: $orange;
         }
         .completed {
             margin-top: 5px;
             width: 15px;
         }
         .show-notes {
+            color: $beige;
             margin-top: 5px;
             display: flex;
             flex-direction: column;
@@ -62,12 +70,19 @@
                 text-decoration: underline;
             }
         }
+        &-author { 
+            position: absolute;
+            bottom: -25px;
+            margin-top: 10px;
+            font-size: .8rem;
+            color: $darker_beige;
+        }
         .notice-menu-btn {
             height: 15px;
             width: 5px;
             position: absolute;
-            top: 0;
-            right: 0;
+            top: 15px;
+            right: 15px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
@@ -79,7 +94,7 @@
                 height: 3px;
                 width: 3px;
                 border-radius: 50%;
-                background-color: $light_blue;
+                background-color: $orange;
             }
         }
         .notice-menu {
@@ -90,14 +105,14 @@
             flex-direction: column;
             position: absolute;
             gap: 7px;
-            top: 0;
-            right: 10px;
-            background-color: $light_blue;
+            top: 15px;
+            right: 30px;
+            background-color: $beige;
             box-shadow: 2px 2px 10px rgb(22, 22, 22);
 
 
             &-option {
-                color: $dark_blue;
+                color: $darker_beige;
                 text-decoration: underline;
                 cursor: pointer;
             }

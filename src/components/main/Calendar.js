@@ -13,16 +13,15 @@ function Calendar(props) {
     const [monthChanged, setMonthChanged] = useState(false);
     const [cellClicked, setCellClicked] = useState(false);
     const [useWideGrid, setUseWideGrid] = useState(false);
+    const [years, setYears] = useState([props.currentYear - 1, props.currentYear, props.currentYear + 1])
+    const [showYearDropdown, setShowYearDropdown] = useState(false);
 
-    useEffect(() => {
-        setScreenWidth(window.screen.width)
-    }, [])
-
+    //sets screenWidth 
     //determines which grid to use base on viewport width
     useEffect(() => {
+        setScreenWidth(window.innerWidth)
         if(window.innerWidth > 2199) setUseWideGrid(true);
-      }, [])
-
+    }, [])
 
     //this sets the calendar days for the current/selected month 
     useEffect(() => {
@@ -69,11 +68,11 @@ function Calendar(props) {
                         }
                     }
 
-                    // Checks how many notices correspond to that day and adds them to the cell object
+                    // Checks how many notices correspond to that date and adds them to the cell object
                     const noticesThisDay = [];
                     props.noticeData.forEach(notice => {
                         if(notice.month === calendar[props.currentMonth].month 
-                        && notice.day === dateNumber) {
+                        && notice.day === dateNumber && notice.year === props.currentYear) {
                             noticesThisDay.push(notice.title)
                         }
                     })
@@ -89,7 +88,7 @@ function Calendar(props) {
             } 
             return arr;
         })
-    }, [props.currentMonth, props.noticeData])
+    }, [props.currentMonth, props.noticeData, props.currentYear])
 
 
     function chooseMonth(index) {
@@ -126,12 +125,26 @@ function Calendar(props) {
         }
     }
 
+    function handleYearClick(e) {
+        const selectedYear = e.target.innerHTML; 
+        props.setCurrentYear(selectedYear)
+    }
+
     return (
         <div className={`calendar ${props.currentScreen === "day" ? "hidden" : ""}`}>
             <div className="calendar__months">
                 {calendar.map((month, index) => (
                     <span onClick={() => chooseMonth(index)} className={`calendar__months-item ${selectedMonth === index ? "selected-month" : ""}`} key={index}>{screenWidth < 1600 ? month.shortMonth : month.month}</span>
                 ))}
+                <div onClick={() => setShowYearDropdown(prev => prev === false ? true : false)} className="calendar__year">
+                    <p className="calendar__year-text">{props.currentYear}</p>
+                    <img src="./assets/icons/arrow-icon-green.svg"></img>
+                    <div className={`calendar__year-dropdown ${showYearDropdown ? "" : "hidden"}`}>
+                        {years.map((year, index) => (
+                            <span onClick={(e) => handleYearClick(e)} key={index}>{year}</span> 
+                        ))}
+                    </div>
+                </div>
             </div>
             <div className="calendar__days">
                 {days.map((day, index) => (

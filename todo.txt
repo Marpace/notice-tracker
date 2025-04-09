@@ -1,10 +1,11 @@
 ** TO DO** 
 ✔ Add "see pending notices" option
-- loader for login 
+✔ loader for login 
 - "You are logged in" message
-- logout
-- save the user's name and position to local storage and retrieve when reloading page
-
+✔ logout
+✔ save the user's name and position to local storage and retrieve when reloading page
+- Make it responsive
+- Add option to choose specific time for reminder
 
 
 

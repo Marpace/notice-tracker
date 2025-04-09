@@ -1,11 +1,16 @@
 //Variables +++++++++++++++++++++++++++++++++++++++
+
 //Colors 
-$light_blue: #F4FFFD;
-$dark_blue: #153B50;
-$darker_blue: #042131;
-$light_green: #16F4D0;
-$green: #09A38A;
+$white: #ffffff;
+$beige: rgb(241, 235, 229);
+$dark_beige: #99928c;
+$darker_beige: #5c5855;
+$blue: #23497Bff;
+$dark_blue: #0A233Eff;
+$orange: #FF9326ff;
+$dark_orange: #C37A45ff;
 $error_red: rgb(209, 16, 16);
+
 
 //Breakpoints
 $tablet: 768px;
@@ -15,6 +20,7 @@ $desktop_large: 2200px;
 
 
 // mixins +++++++++++++++++++++++++++++++++++++++
+
 @mixin responsive($size) {
   @media only screen and (min-width: $size) {
     @content
@@ -57,7 +63,7 @@ $desktop_large: 2200px;
 // Reset +++++++++++++++++++++++++++++++++++++++
 body, button, input , textarea{
   font-family: "Roboto-Regular";
-  color: $light_blue;
+  color: $darker_beige;
   font-size: 14px;
 }
   
@@ -73,7 +79,7 @@ html {
 
 body {
   height: 100svh;
-  background-color: $dark_blue;
+  background-color: $white;
   position: relative;
   overflow: hidden;
 }
@@ -84,6 +90,12 @@ body {
     display: flex;
     gap: 20px;
     padding: 0;
+  }
+  .reminder-message {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    translate: -50% 0;
   }
 }
 

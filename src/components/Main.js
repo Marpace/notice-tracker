@@ -14,9 +14,6 @@ function Main(props) {
     const [editedNotice, setEditedNotice] = useState(null);
     const [addNoticeDesktop, setAddNoticeDesktop] = useState(false);
     const [noticeData, setNoticeData] = useState([]);
-    // const [alertText, setAlertText] = useState("");
-    // const [showAlert, setShowAlert] = useState(false);
-    // const [alertError, setAlertError] = useState(false);
     const [loadingNotices, setLoadingNotices] = useState(true);
 
 
@@ -28,11 +25,13 @@ function Main(props) {
     useEffect(() => {
         let reminderTimeout;
         if(noticeData.length > 0) {
-            const noticesThisMonth = noticeData.filter(item => item.month === calendar[props.currentMonth].month && Number(item.year) === props.currentYear).sort((a, b) => a.day - b.day)
+            const noticesThisMonth = noticeData.filter(item => item.month === calendar[props.currentMonth].month && item.year === props.currentYear).sort((a, b) => a.day - b.day)
             const nextScheduledNotice = noticesThisMonth.find(item => item.day >= props.currentDay)
+            console.log(nextScheduledNotice)
             if(nextScheduledNotice) {
-                const timeout = (new Date(`${nextScheduledNotice.noticeDate} 13:00:00`).getTime() - new Date().getTime())
+                const timeout = (new Date(`${nextScheduledNotice.noticeDate} 11:00:00`).getTime() - new Date().getTime())
                 if(!nextScheduledNotice.completed && timeout > 0) { 
+                    console.log(timeout)
                     reminderTimeout = setTimeout(() => {
                         Notification.requestPermission().then(perm => {
                             if(perm === "granted") { 
@@ -109,6 +108,7 @@ function Main(props) {
                         currentMonth={props.currentMonth}
                         setCurrentMonth={props.setCurrentMonth}
                         currentYear={props.currentYear}
+                        setCurrentYear={props.setCurrentYear}
                         setCurrentDay={props.setCurrentDay}
                         currentDay={props.currentDay}
                         setAddNoticeDesktop={setAddNoticeDesktop}
@@ -123,6 +123,7 @@ function Main(props) {
                         alertText={alertText}
                         alertError={alertError} 
                     /> */}
+                    <p className="reminder-message">Reminders are set to go off at 11:00 a.m. on their scheduled day</p>
                 </div>
             )
                     

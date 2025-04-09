@@ -191,6 +191,7 @@ function DailyNotices(props) {
                         <p className="show-notes__btn">{notice.notes ? "Show notes" : ""}</p>
                         <p className={`show-notes__notes ${notice.showNotes ? "" : "hidden"}`}>{notice.notes}</p>
                     </div>
+                    <p className="day-notices__item-author">{`Created by ${notice.createdBy}`}</p>
                     
                     <div onClick={() => toggleMenu(index)} className={`notice-menu-btn`}>
                         <span id={index} className="dot"></span>

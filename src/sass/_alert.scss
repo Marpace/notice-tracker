@@ -1,8 +1,8 @@
 .alert {
     height: 30px;
     width: 0px;
-    position: fixed;
-    left: 213px;
+    position: absolute;
+    left: calc(100% + 20px);
     top: 90px;
     overflow: hidden;
     animation-name: showAlert;
@@ -12,7 +12,7 @@
     &__text {
         width: fit-content;
         padding: 5px 10px;
-        background-color: $light_green;
+        background-color: $orange;
         border-radius: 5px;
         white-space: nowrap;
         color: $dark_blue;
@@ -20,7 +20,7 @@
     }
     .error-alert {
         background-color: $error_red;
-        color: $light_blue;
+        color: $blue;
         
     }
 }

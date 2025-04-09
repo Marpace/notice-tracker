@@ -101,11 +101,11 @@ function Login(props) {
                     {/* This shows when resetting password  */}
                     <div className={showPasswordReset ? "" : "hidden"}>
                         <div className="login-modal__body-inputs-group" onChange={(e) => setNewPassword(e.target.value)} value={newPassword}>
-                            <input type="text" className="login-input"></input>
+                            <input type="password" className="login-input"></input>
                             <label className="login-input-label">New password</label>
                         </div>
                         <div className="login-modal__body-inputs-group" onChange={(e) => setConfirmNewPassword(e.target.value)} value={confirmNewPassword}>
-                            <input type="text" className="login-input"></input>
+                            <input type="password" className="login-input"></input>
                             <label className="login-input-label">Confirm new password</label>
                         </div>
                     </div>
@@ -115,7 +115,7 @@ function Login(props) {
                             <label className="login-input-label">Username</label>
                         </div>
                         <div className="login-modal__body-inputs-group" onChange={(e) => setPassword(e.target.value)} value={password}>
-                            <input type="text" className="login-input"></input>
+                            <input type="password" className="login-input"></input>
                             <label className="login-input-label">Password</label>
                         </div>
                     </div>

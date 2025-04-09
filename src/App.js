@@ -9,12 +9,12 @@ import Alert from "./components/main/Alert";
 
 function App() {
 
-    const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
-    // const base_url = "http://localhost:8080";
+    // const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
+    const base_url = "http://localhost:8080";
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentDay, setCurrentDay] = useState(new Date().getDate());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear().toString())
   const [currentScreen, setCurrentScreen] = useState("month");
   const [prevScreen, setPrevScreen] = useState("");
   const [filter, setFilter] = useState("day");
@@ -23,7 +23,7 @@ function App() {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loggedUserName, setLoggedUserName] = useState("");
   const [loggedUserPosition, setLoggedUserPosition] = useState("");
-  const [alertText, setAlertText] = useState("");
+  const [alertText, setAlertText] = useState("Notice Saved");
   const [showAlert, setShowAlert] = useState(false);
   const [alertError, setAlertError] = useState(false);
 
@@ -78,6 +78,9 @@ function App() {
         loggedUserPosition={loggedUserPosition}
         loggedIn={loggedIn}
         userLogout={userLogout}
+        showAlert={showAlert}
+        alertText={alertText}
+        alertError={alertError} 
       />
       <MonthSection 
         currentScreen={currentScreen}
@@ -97,6 +100,7 @@ function App() {
         setPrevScreen={setPrevScreen} 
         setCurrentMonth={setCurrentMonth}
         currentYear={currentYear}
+        setCurrentYear={setCurrentYear}
         filter={filter}
         setFilter={setFilter}
         setShowLogin={setShowLogin}
@@ -121,11 +125,7 @@ function App() {
         setShowAlert={setShowAlert}
         setAlertError={setAlertError}
       />
-      <Alert 
-        showAlert={showAlert}
-        alertText={alertText}
-        alertError={alertError} 
-      />
+      
     </div>
   );
 }

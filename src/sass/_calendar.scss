@@ -16,11 +16,14 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        position: relative;
+        z-index: 100;
         translate: 0 -70px;
-        border-bottom: 1px solid $light_blue;
+        border-bottom: 1px solid $dark_beige;
 
         &-item {
             font-size: 1rem;
+            color: $dark_beige;
             cursor: pointer;
             transition: font-size 300ms;
             flex-grow: 1;
@@ -33,7 +36,48 @@
         .selected-month {
             font-size: 1.7rem;
             font-family: "Roboto-Bold";
-            color: $light_green;
+            color: $orange;
+        }
+        .calendar__year {
+            position: absolute;
+            right: 0;
+            bottom: -28px;
+            display: flex;
+            gap: 10px;
+            cursor: pointer;
+
+            &-text {
+                font-size: 1.3rem;
+                font-family: "Roboto-Bold";
+                color: $orange;
+            }
+            &-dropdown {
+                padding: 10px 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                position: absolute;
+                top: 100%;
+                background-color: $white;
+                border: 1px solid $orange;
+
+                span {
+                    height: 25px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 1rem;
+                    color: $orange;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $orange;
+                        color: $darker_beige;
+                    }
+                }
+            }
         }
     }
 
@@ -58,6 +102,7 @@
             width: 96px;
             display: flex;
             justify-content: center;
+            color: $dark_beige;
         }
     }
 
@@ -112,6 +157,7 @@
                     .cell-date {
                         font-family: "Roboto-Medium";
                         font-size: 1rem;
+                        color: $dark_beige;
                     }
 
                     .cell-plus-icon {
@@ -122,22 +168,22 @@
 
                     .cell-number-of-notices {
                         width: 100%;
-                        color: $light_green;
+                        color: $dark_beige;
                     }
                     
                 }
                 .selected-cell {
-                    background-color: $light_green;
+                    background-color: $orange;
 
                     .cell-date {
-                        color: $dark_blue;
+                        color: $darker_beige;
                     }
                     .cell-number-of-notices {
-                        color: $dark_blue;
+                        color: $darker_beige;
                     }
                 }
                 .disabled-cell {
-                    background-color: $darker_blue;
+                    background-color: $darker_beige;
                     &:hover > .cell-plus-icon {
                         display: none;
                     }
@@ -145,7 +191,7 @@
             }
             &__loader {
                 translate: 0 50px;
-                color: $light_green;
+                color: $orange;
                 font-family: "Roboto-Medium";
                 font-size: 1.2rem;
                 animation-name: loader;

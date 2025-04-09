@@ -21,10 +21,11 @@ function NewItem(props) {
         props.currentYear, props.currentYear + 1, props.currentYear + 2
     ])
 
-
    const [validateDescription, setValidateDescription] = useState(false); 
    const [validateDate, setValidateDate] = useState(false); 
    const [dateLabel, setDateLabel] = useState("Event date")
+
+    const [noticeToEdit, setNoticeToEdit] = useState(null);
 
     useEffect(() => {
         setDayValue(props.currentDay)
@@ -34,6 +35,7 @@ function NewItem(props) {
     //If editing an existing notice
    useEffect(() => {
     if(props.editedNotice) {
+        setNoticeToEdit(props.editedNotice)
         const date = props.editedNotice.eventDate;
         const month = date.split(" ")[0];
         const day = date.slice((date.indexOf(" ") + 1), (date.indexOf(",")));
@@ -43,10 +45,12 @@ function NewItem(props) {
         setDayValue(day)
         setDescriptionValue(props.editedNotice.title);
         setGuardsValue(props.editedNotice.numberOfGuards === null ? 0 : props.editedNotice.numberOfGuards);
+        setNotesValue(() => props.editedNotice.notes ? props.editedNotice.notes : "")
     }
    }, [props.editedNotice])
 
-    function handleCancel() {
+    function handleCancel(e) {
+        e.preventDefault();
         if(props.currentScreen === "desktop") {
             props.setAddNoticeDesktop(false);
             setDescriptionValue("")
@@ -62,14 +66,27 @@ function NewItem(props) {
 
     function saveNotice(e) {
         e.preventDefault()
-        if(validateDate || validateDescription) return; 
         if(descriptionValue === "") {
             setValidateDescription(true);
             return;
-        }
+        } 
+        if(validateDate) return; 
+
+        const dateValue = `${monthValue} ${dayValue}, ${yearValue}`
+        let noticeChanged = false;
+        if(noticeToEdit && noticeToEdit.wasEdited === false){
+            if(descriptionValue === noticeToEdit.title &&
+                dateValue === noticeToEdit.eventDate &&
+                guardsValue === noticeToEdit.numberOfGuards && 
+                notesValue === noticeToEdit.notes) {
+                    noticeChanged = false;
+                    return;
+            }
+        } 
+
+
         props.setShowAlert(false);
         props.setAlertError(false);
-        const dateValue = `${monthValue} ${dayValue}, ${yearValue}`
         fetch(`${props.base_url}/save-notice`, {
             method: "POST",
             headers: {
@@ -88,6 +105,8 @@ function NewItem(props) {
                 menuIsOpen: false,
                 notes: notesValue, 
                 showNotes: false,
+                createdBy: localStorage.getItem("name"),
+                wasEdited: noticeChanged,
                 noticeId: props.editedNotice ? props.editedNotice._id : null
             })
         })
@@ -109,7 +128,7 @@ function NewItem(props) {
             props.setAlertText("Notice could not be saved, please try again")
             console.log(err)
         });
-        handleCancel();
+        handleCancel(e);
     }
 
     function createDaysArray(month) {
@@ -166,7 +185,7 @@ function NewItem(props) {
 
     return (
         <div className={`new-item ${props.currentScreen === "desktop" && !props.addNoticeDesktop ? "hidden" : ""}`}>
-            <p className="new-item__title">{`${props.editedNotice ? "" : `${props.currentScreen === "desktop" ? `New notice to be sent on ${calendar[props.currentMonth].month} ${props.currentDay + 1}, ${props.currentYear}` : "New notice"}`}`}</p>
+            <p className="new-item__title">{`${props.editedNotice ? "" : `${props.currentScreen === "desktop" ? `New notice to be sent on ${calendar[props.currentMonth].month} ${props.currentDay}, ${props.currentYear}` : "New notice"}`}`}</p>
             <form className="new-item__form"> 
                 <div className="new-item__form-group">
                     <input 

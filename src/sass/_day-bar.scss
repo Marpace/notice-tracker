@@ -8,7 +8,7 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    background-color: $light_blue;
+    background-color: $dark_beige;
     overflow-y: scroll;
 
     &__day {
@@ -20,6 +20,6 @@
         justify-content: center;
     }
     .chosen-day {
-        background-color: $light_green;
+        background-color: $dark_beige;
     }
 }

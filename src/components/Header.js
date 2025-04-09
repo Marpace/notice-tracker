@@ -1,4 +1,6 @@
 import {useEffect, useState} from "react";
+import Alert from "./main/Alert";
+
 
 function Header(props) {
 
@@ -13,8 +15,8 @@ function Header(props) {
         <div className="header">
             <h1 className="header__heading">Discovery I&II</h1>
             <div className="desktop-username">
-                <p className="desktop-username__name">{props.loggedUserName}</p> 
-                <p className="desktop-username__title">{props.loggedUserPosition}</p>
+                <p className="desktop-username__name">{localStorage.getItem("name")}</p> 
+                <p className="desktop-username__title">{localStorage.getItem("position")}</p>
             </div>
             <div className="menu-options">
                 <p onClick={() => props.setFilter("pending")} className={`${props.filter === "pending" ? "menu-options__option-selected" : ""} menu-options__option`}>Pending Notices</p>
@@ -32,6 +34,11 @@ function Header(props) {
                     <img src="./assets/icons/close-icon.svg"></img>
                 </div>
             </div>
+            <Alert 
+                showAlert={props.showAlert}
+                alertText={props.alertText}
+                alertError={props.alertError} 
+            />
         </div>
     )
 }
