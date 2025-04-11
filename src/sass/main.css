@@ -298,8 +298,10 @@ body {
   font-family: "Roboto-Medium";
   text-decoration: underline;
 }
-.day-notices__header-icon {
+.day-notices__header-complete-all {
   cursor: pointer;
+  color: #ff9326;
+  text-decoration: underline;
 }
 .day-notices__item {
   padding: 15px;
@@ -326,12 +328,18 @@ body {
   color: rgb(241, 235, 229);
 }
 .day-notices__item .guards-required {
-  margin-top: 5px;
+  margin: 5px 0;
   color: #ff9326;
+}
+.day-notices__item .remind-me-at {
+  color: rgb(241, 235, 229);
 }
 .day-notices__item .completed {
   margin-top: 5px;
   width: 15px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 .day-notices__item .show-notes {
   color: rgb(241, 235, 229);
@@ -471,7 +479,7 @@ body {
   padding: 10px;
 }
 .new-item__form-group .field-required {
-  border: 2px solid rgb(209, 16, 16);
+  border: 2px solid rgb(218, 81, 81);
 }
 .new-item__form-group .number-input::-webkit-outer-spin-button,
 .new-item__form-group .number-input::-webkit-inner-spin-button {
@@ -484,12 +492,12 @@ body {
 .new-item__form-group .form-label {
   color: #5c5855;
 }
-.new-item__form .date-group {
+.new-item__form .date-group, .new-item__form .reminder-time {
   width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.new-item__form .date-group .date-field {
+.new-item__form .date-group .dropdown-field, .new-item__form .reminder-time .dropdown-field {
   border: 1px solid #99928c;
   width: 23.5%;
   padding: 10px;
@@ -500,17 +508,17 @@ body {
   justify-content: space-between;
   cursor: pointer;
 }
-.new-item__form .date-group .date-field .month-value, .new-item__form .date-group .date-field .day-value, .new-item__form .date-group .date-field .year-value {
+.new-item__form .date-group .dropdown-field .month-value, .new-item__form .date-group .dropdown-field .day-value, .new-item__form .date-group .dropdown-field .year-value, .new-item__form .reminder-time .dropdown-field .month-value, .new-item__form .reminder-time .dropdown-field .day-value, .new-item__form .reminder-time .dropdown-field .year-value {
   color: #5c5855;
 }
-.new-item__form .date-group .date-field .drop-down-icon {
+.new-item__form .date-group .dropdown-field .drop-down-icon, .new-item__form .reminder-time .dropdown-field .drop-down-icon {
   width: 15px;
   pointer-events: none;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
 }
-.new-item__form .date-group .date-field__drop-down {
+.new-item__form .date-group .dropdown-field__drop-down, .new-item__form .reminder-time .dropdown-field__drop-down {
   display: flex;
   width: 100%;
   max-height: 200px;
@@ -525,29 +533,40 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #5c5855 #ffffff;
 }
-.new-item__form .date-group .date-field__drop-down-option {
+.new-item__form .date-group .dropdown-field__drop-down-option, .new-item__form .reminder-time .dropdown-field__drop-down-option {
   padding: 5px 10px;
   width: 100%;
   color: #5c5855;
 }
-.new-item__form .date-group .date-field__drop-down-option:hover {
+.new-item__form .date-group .dropdown-field__drop-down-option:hover, .new-item__form .reminder-time .dropdown-field__drop-down-option:hover {
   background-color: #5c5855;
   color: rgb(241, 235, 229);
 }
-.new-item__form .date-group .date-field__drop-down .selected-option {
+.new-item__form .date-group .dropdown-field__drop-down .selected-option, .new-item__form .reminder-time .dropdown-field__drop-down .selected-option {
   background-color: #5c5855;
   color: rgb(241, 235, 229);
 }
-.new-item__form .date-group .date-field__drop-down::-webkit-scrollbar {
+.new-item__form .date-group .dropdown-field__drop-down::-webkit-scrollbar, .new-item__form .reminder-time .dropdown-field__drop-down::-webkit-scrollbar {
   display: none;
 }
-.new-item__form .date-group .date-field:nth-child(1) {
+.new-item__form .date-group .month-dropdown, .new-item__form .reminder-time .month-dropdown {
   width: 50%;
 }
-.new-item__form .date-group .field-required {
+.new-item__form .date-group .field-required, .new-item__form .reminder-time .field-required {
   border: 2px solid red;
 }
-.new-item__form .date-group .date-label {
+.new-item__form .date-group .date-label, .new-item__form .reminder-time .date-label {
+  width: 100%;
+}
+.new-item__form .date-group .reminder-time__label, .new-item__form .reminder-time .reminder-time__label {
+  width: 100%;
+}
+.new-item__form .reminder-time {
+  width: 60%;
+  align-items: center;
+}
+.new-item__form .reminder-time__hour-value, .new-item__form .reminder-time__minute-value {
+  text-align: center;
   width: 100%;
 }
 .new-item__buttons {
@@ -808,7 +827,7 @@ body {
   font-family: "Roboto-Medium";
 }
 .alert .error-alert {
-  background-color: rgb(209, 16, 16);
+  background-color: rgb(218, 81, 81);
   color: #23497b;
 }
 
@@ -885,6 +904,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 500;
 }
 .login-modal__body {
   width: 90vw;
@@ -900,9 +920,10 @@ body {
   color: rgb(241, 235, 229);
   font-family: "Roboto-Bold";
   font-size: 1.6rem;
+  text-align: center;
 }
 .login-modal__body .error-message {
-  color: rgb(209, 16, 16);
+  color: rgb(218, 81, 81);
 }
 .login-modal__body-inputs {
   width: 100%;

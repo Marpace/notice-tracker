@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 500;
 
     &__body {
         width: 90vw;
@@ -23,6 +24,7 @@
             color: $beige;
             font-family: "Roboto-Bold";
             font-size: 1.6rem;
+            text-align: center;
         }
 
         .error-message {

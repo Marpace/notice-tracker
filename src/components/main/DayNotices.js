@@ -21,14 +21,16 @@ function DailyNotices(props) {
                 props.noticeData.map( notice => {
                     const noticeDate = new Date(notice.noticeDate)
                     const today = new Date();
-                    if(today < noticeDate && !notice.completed) {
+                    console.log(today)
+                    console.log(noticeDate)
+                    if(today <= noticeDate && !notice.completed) {
                         notice.menuIsOpen = false;
                         arr.push(notice)
                     }
                 })
             } else if (props.filter === "overdue") {
                 props.noticeData.map( notice => {
-                    const noticeDate = new Date(`${notice.noticeDate} 23:59:59`)
+                    const noticeDate = new Date(notice.noticeDate)
                     const today = new Date();
                     if(today > noticeDate && !notice.completed) {
                         notice.menuIsOpen = false;
@@ -109,7 +111,7 @@ function DailyNotices(props) {
         .catch(err => console.log(err));
     }
 
-    function markAsCompleted(noticeId, index) {
+    function markAsCompleted(notice, index) {
         if(!props.loggedIn) props.setShowLogin(true);
         else {
             if(index) toggleMenu(index);
@@ -119,7 +121,7 @@ function DailyNotices(props) {
                     Authorization: "Bearer " + localStorage.getItem("token"),
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({noticeId: noticeId})
+                body: JSON.stringify({noticeId: notice._id})
             })
             .then(res => {
                 console.log(res.status)
@@ -165,7 +167,7 @@ function DailyNotices(props) {
 
     function markAllAsCompleted() {
         notices.forEach(notice => {
-            markAsCompleted(notice._id)
+            markAsCompleted(notice)
         })
         setAllCompleted(prev => prev === true ? false : true)
     }
@@ -175,22 +177,22 @@ function DailyNotices(props) {
         <div className={`day-notices ${props.currentScreen === "desktop" && props.addNoticeDesktop ? "hidden" : ""}`}>
             <div className="day-notices__header">
                 <p className={`day-notices__header-title`}>{noticesHeader}</p>
-                <img 
-                title="Mark all as completed"
+                <p 
                 onClick={markAllAsCompleted} 
-                className={`day-notices__header-icon ${props.filter === "overdue" && notices.length > 0 ? "" : "hidden"}`} 
-                src={`./assets/icons/${allCompleted ? "checkmark-icon" : "complete-all-icon"}.svg`}></img>
+                className={`day-notices__header-complete-all ${props.filter === "overdue" && notices.length > 0 ? "" : "hidden"}`} 
+                >Mark all as completed</p>
             </div>
             {notices.map((notice, index) => (
                 <div key={index} className="day-notices__item" style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
                     <p className="notice-title">{notice.title}</p>
                     <p className="notice-scheduled-date">{`Scheduled for ${notice.eventDate}`}</p>
                     <p className={`guards-required`}>{`${notice.numberOfGuards <= 0 ? "No escort guards required" : `${notice.numberOfGuards === 1 ? "Requires 1 escort guard" : `Requires ${notice.numberOfGuards} escort guards`}`}` }</p>
-                    <img className={`completed ${notice.completed ? "" : "hidden"}`} src="./assets/icons/checkmark-icon.svg"></img>
+                    <p className="remind-me-at">{`Remind me at ${notice.reminderTime ? notice.reminderTime : "11:00"}`}</p>
                     <div onClick={() => toggleNotes(index)} className="show-notes">
                         <p className="show-notes__btn">{notice.notes ? "Show notes" : ""}</p>
                         <p className={`show-notes__notes ${notice.showNotes ? "" : "hidden"}`}>{notice.notes}</p>
                     </div>
+                    <img className={`completed ${notice.completed ? "" : "hidden"}`} src="./assets/icons/checkmark-icon.svg"></img>
                     <p className="day-notices__item-author">{`Created by ${notice.createdBy}`}</p>
                     
                     <div onClick={() => toggleMenu(index)} className={`notice-menu-btn`}>
@@ -201,7 +203,7 @@ function DailyNotices(props) {
                     <div className={`notice-menu ${notice.menuIsOpen ? "show-flex" : ""}`}>
                         <p id={notice._id} onClick={(e) => handleDeleteClick(e)} className="notice-menu-option">Delete</p>
                         <p id={index} onClick={(e) => handleEditClick(e, notice)} className="notice-menu-option">Edit</p>
-                        <p id={notice._id} onClick={(e) => markAsCompleted(e, index)} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
+                        <p id={notice._id} onClick={(e) => markAsCompleted(notice, index)} className="notice-menu-option">{notice.completed ? "Mark as pending" : "Mark as completed"}</p>
                     </div>
                 </div>
             ))}

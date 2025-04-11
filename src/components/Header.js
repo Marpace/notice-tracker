@@ -10,6 +10,7 @@ function Header(props) {
     function handleMenuClick() {
         setMenuIsOpen(prev => prev === false ? true : false )
     }
+    
 
     return (
         <div className="header">

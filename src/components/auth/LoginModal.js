@@ -11,8 +11,9 @@ function Login(props) {
     const [showError, setShowError] = useState(false);
     const [showPasswordReset, setShowPasswordReset] = useState(false);
 
-    function userLogin(username, password) {
+    function userLogin(event) {
         if(props.loadingLogin) return;
+        if(event && event.key !== "Enter" && event.type !== "click") return;
         props.setLoadingLogin(true);
         fetch(`${props.base_url}/login`, {
             method: "POST",
@@ -42,8 +43,15 @@ function Login(props) {
           props.setLoggedUserName(data.name)
           props.setLoggedUserPosition(data.position)
           props.setLoadingLogin(false);
+            setShowPasswordReset(false);
+            setUsername("");
+            setPassword("");
+            setNewPassword("");
+            setConfirmNewPassword("");
+            setShowError(false);
           if(data.firstLogin) setShowPasswordReset(true);
           else props.setShowLogin(false);
+
         })
         .catch(err => {
           console.log(err);
@@ -89,33 +97,41 @@ function Login(props) {
       function handleCancel() {
         props.setShowLogin(false);
         setShowPasswordReset(false);
+        setUsername("");
+        setPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
+        setShowError(false);
       }
 
 
     return (
         <div className={`login-modal ${props.showLogin ? "" : "hidden"}`}>
             <div className="login-modal__body">
-                <p className="login-modal__body-title">{showPasswordReset ? "PASSWORD RESET REQUIRED" : "LOGIN"}</p>
+                <div>
+                    <p className="login-modal__body-title">NOTICE TRACKER</p>
+                    <p className="login-modal__body-title">{showPasswordReset ? "PASSWORD RESET REQUIRED" : "LOGIN"}</p>
+                </div>
                 <p className={`error-message ${showError ? "" : "hidden"}`}>{showPasswordReset ? "Passwords do not match!" : "Please check username or password"}</p>
                 <div className="login-modal__body-inputs">
                     {/* This shows when resetting password  */}
                     <div className={showPasswordReset ? "" : "hidden"}>
-                        <div className="login-modal__body-inputs-group" onChange={(e) => setNewPassword(e.target.value)} value={newPassword}>
-                            <input type="password" className="login-input"></input>
+                        <div className="login-modal__body-inputs-group" >
+                            <input type="password" className="login-input" onKeyDown={(e) => userLogin(e)} onChange={(e) => setNewPassword(e.target.value)} value={newPassword}></input>
                             <label className="login-input-label">New password</label>
                         </div>
-                        <div className="login-modal__body-inputs-group" onChange={(e) => setConfirmNewPassword(e.target.value)} value={confirmNewPassword}>
-                            <input type="password" className="login-input"></input>
+                        <div className="login-modal__body-inputs-group" >
+                            <input type="password" className="login-input" onKeyDown={(e) => userLogin(e)} onChange={(e) => setConfirmNewPassword(e.target.value)} value={confirmNewPassword}></input>
                             <label className="login-input-label">Confirm new password</label>
                         </div>
                     </div>
                     <div className={showPasswordReset ? "hidden" : ""}>
-                        <div className="login-modal__body-inputs-group" onChange={(e) => setUsername(e.target.value)} value={username}>
-                            <input type="text" className="login-input"></input>
+                        <div className="login-modal__body-inputs-group" >
+                            <input type="text" className="login-input" onKeyDown={(e) => userLogin(e)} onChange={(e) => setUsername(e.target.value)} value={username}></input>
                             <label className="login-input-label">Username</label>
                         </div>
-                        <div className="login-modal__body-inputs-group" onChange={(e) => setPassword(e.target.value)} value={password}>
-                            <input type="password" className="login-input"></input>
+                        <div className="login-modal__body-inputs-group" >
+                            <input type="password" className="login-input" onKeyDown={(e) => userLogin(e)} onChange={(e) => setPassword(e.target.value)} value={password}></input>
                             <label className="login-input-label">Password</label>
                         </div>
                     </div>
@@ -128,7 +144,7 @@ function Login(props) {
                     <button className="login-btn" onClick={() => handleCancel()}>Cancel</button>
                 </div>
                 <div className={`login-modal__body-buttons ${showPasswordReset ? "hidden" : ""}`}>
-                    <button className={`login-btn`} onClick={() => userLogin(username, password)}>
+                    <button className={`login-btn`} onClick={(e) => userLogin(e)}>
                         {props.loadingLogin ? "" : "Login"}
                         <span className={`loading-login ${props.loadingLogin ? "" : "hidden"}`}></span>
                     </button>

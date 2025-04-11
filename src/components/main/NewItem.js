@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { calendar } from "../../Data";
+import { calendar, hours, minutes } from "../../Data";
 
 function NewItem(props) {
 
@@ -11,15 +11,20 @@ function NewItem(props) {
    const [yearValue, setYearValue] = useState(props.currentYear)
    const [guardsValue, setGuardsValue] = useState(0);
    const [notesValue, setNotesValue] = useState("");
+   const [hourValue, setHourValue] = useState("11");
+   const [minuteValue, setMinuteValue] = useState("00");
 
    const [monthMenuOpen, setMonthMenuOpen] = useState(false)
    const [dayMenuOpen, setDayMenuOpen] = useState(false)
    const [yearMenuOpen, setYearMenuOpen] = useState(false)
+   const [reminderHourMenuOpen, setReminderHourMenuOpen] = useState(false)
+   const [reminderMinuteMenuOpen, setReminderMinuteMenuOpen] = useState(false)
 
     const [dayOptions, setDayOptions] = useState(() => createDaysArray(calendar[props.currentMonth].month))
     const [yearOptions, setYearOptions] = useState([
-        props.currentYear, props.currentYear + 1, props.currentYear + 2
+        props.currentYear, Number(props.currentYear) + 1, Number(props.currentYear) + 2
     ])
+
 
    const [validateDescription, setValidateDescription] = useState(false); 
    const [validateDate, setValidateDate] = useState(false); 
@@ -75,10 +80,13 @@ function NewItem(props) {
         const dateValue = `${monthValue} ${dayValue}, ${yearValue}`
         let noticeChanged = false;
         if(noticeToEdit && noticeToEdit.wasEdited === false){
-            if(descriptionValue === noticeToEdit.title &&
+            if(
+                descriptionValue === noticeToEdit.title &&
                 dateValue === noticeToEdit.eventDate &&
                 guardsValue === noticeToEdit.numberOfGuards && 
-                notesValue === noticeToEdit.notes) {
+                notesValue === noticeToEdit.notes &&
+                `${hourValue}:${minuteValue}:00` === noticeToEdit.reminderTime
+            ) {
                     noticeChanged = false;
                     return;
             }
@@ -97,7 +105,8 @@ function NewItem(props) {
                 year: props.currentYear,
                 month: calendar[props.currentMonth].month,
                 day: props.currentDay,
-                noticeDate: `${calendar[props.currentMonth].month} ${props.currentDay}, ${props.currentYear}`,
+                noticeDate: `${calendar[props.currentMonth].month} ${props.currentDay} ${props.currentYear} ${hourValue}:${minuteValue}`,
+                reminderTime: `${hourValue}:${minuteValue}`,
                 title: descriptionValue,
                 eventDate: dateValue,
                 numberOfGuards: guardsValue,
@@ -141,14 +150,19 @@ function NewItem(props) {
 
     function toggleMenu(e) {
         const field = e.target.className; 
+        console.log(field)
         if(field.includes("option")) {
             if(field.includes("month")) setMonthMenuOpen(false)
             if(field.includes("day")) setDayMenuOpen(false)
             if(field.includes("year")) setYearMenuOpen(false)            
+            if(field.includes("hour")) setReminderHourMenuOpen(false)            
+            if(field.includes("minute")) setReminderMinuteMenuOpen(false)            
         } else {
             if(field.includes("month")) setMonthMenuOpen(prev => prev ? false : true)
             if(field.includes("day")) setDayMenuOpen(prev => prev ? false : true)
-            if(field.includes("year")) setYearMenuOpen(prev => prev ? false : true)
+            if(field.includes("year")) setYearMenuOpen(prev => prev ? false : true)            
+            if(field.includes("hour")) setReminderHourMenuOpen(prev => prev ? false : true)            
+            if(field.includes("minute")) setReminderMinuteMenuOpen(prev => prev ? false : true)
         }
 
     }
@@ -168,6 +182,14 @@ function NewItem(props) {
         if(option.includes("year")) {
             setYearValue(value);
             setYearMenuOpen(false);
+        }
+        if(option.includes("hour")) {
+            setHourValue(value);
+            setReminderHourMenuOpen(false);
+        }
+        if(option.includes("minute")) {
+            setMinuteValue(value);
+            setReminderMinuteMenuOpen(false);
         }
     }
 
@@ -197,40 +219,40 @@ function NewItem(props) {
                     <label className="form-label">Event description</label>
                 </div>
                 <div className="new-item__form-group date-group">
-                    <div className={`month-selection date-field ${validateDate ? "field-required" : ""}`} onClick={e => toggleMenu(e)}>
+                    <div className={`month-selection dropdown-field month-dropdown ${validateDate ? "field-required" : ""}`} onClick={e => toggleMenu(e)}>
                         <p className="month-value">{monthValue}</p>
-                        <div className={`date-field__drop-down ${monthMenuOpen ? "" : "hidden"}`}>
+                        <div className={`dropdown-field__drop-down ${monthMenuOpen ? "" : "hidden"}`}>
                             {months.map((month, index) => (
                                 <span 
                                     key={index}
                                     onClick={e => handleOptionClick(e)}
-                                    className={`month-option date-field__drop-down-option ${monthValue === month ? "selected-option" : ""}`}>
+                                    className={`month-option dropdown-field__drop-down-option ${monthValue === month ? "selected-option" : ""}`}>
                                 {month}</span>
                             ))}
                         </div>
                         <img className="drop-down-icon" src="./assets/icons/arrow-icon.svg"></img>
                     </div>
-                    <div className={`day-selection date-field ${validateDate ? "field-required" : ""}`} onClick={e => toggleMenu(e)}>
+                    <div className={`day-selection dropdown-field ${validateDate ? "field-required" : ""}`} onClick={e => toggleMenu(e)}>
                         <p className="day-value">{dayValue}</p>
-                        <div className={`date-field__drop-down ${dayMenuOpen ? "" : "hidden"}`}>
+                        <div className={`dropdown-field__drop-down ${dayMenuOpen ? "" : "hidden"}`}>
                             {dayOptions.map((month, index) => (
                                 <span 
                                     key={index}
                                     onClick={e => handleOptionClick(e)}
-                                    className="date-field__drop-down-option day-option">
+                                    className="dropdown-field__drop-down-option day-option">
                                 {month}</span>
                             ))}
                         </div>
                         <img className="drop-down-icon" src="./assets/icons/arrow-icon.svg"></img>
                     </div>
-                    <div className={`year-selection date-field ${validateDate ? "field-required" : ""}`} onClick={e => toggleMenu(e)}>
+                    <div className={`year-selection dropdown-field ${validateDate ? "field-required" : ""}`} onClick={e => toggleMenu(e)}>
                         <p className="year-value">{yearValue}</p>
-                        <div className={`date-field__drop-down ${yearMenuOpen ? "" : "hidden"}`}>
+                        <div className={`dropdown-field__drop-down ${yearMenuOpen ? "" : "hidden"}`}>
                             {yearOptions.map((month, index) => (
                                 <span 
                                     key={index} 
                                     onClick={e => handleOptionClick(e)}
-                                    className="date-field__drop-down-option year-option">
+                                    className="dropdown-field__drop-down-option year-option">
                                 {month}</span>
                             ))}
                         </div>
@@ -245,6 +267,34 @@ function NewItem(props) {
                 <div className="new-item__form-group">
                     <textarea className="form-input" value={notesValue} onChange={e => setNotesValue(e.target.value)}></textarea>
                     <label className="form-label">Notes</label>
+                </div>
+                <div className="new-item__form-group reminder-time">
+                    <label className="reminder-time__label">Remind me at</label>
+                    <div className={`reminder-time__hour dropdown-field`} onClick={e => toggleMenu(e)}>
+                        <p className="reminder-time__hour-value">{hourValue}</p>
+                        <div className={`dropdown-field__drop-down ${reminderHourMenuOpen ? "" : "hidden"}`}>
+                            {hours.map((hour, index) => (
+                                <span 
+                                    key={index} 
+                                    onClick={e => handleOptionClick(e)}
+                                    className="dropdown-field__drop-down-option hour">
+                                {hour}</span>
+                            ))}
+                        </div>
+                    </div>
+                    <span>:</span>
+                    <div className={`reminder-time__minute dropdown-field`} onClick={e => toggleMenu(e)}>
+                        <p className="reminder-time__minute-value">{minuteValue}</p>
+                        <div className={`dropdown-field__drop-down ${reminderMinuteMenuOpen ? "" : "hidden"}`}>
+                            {minutes.map((minute, index) => (
+                                <span 
+                                    key={index} 
+                                    onClick={e => handleOptionClick(e)}
+                                    className="dropdown-field__drop-down-option minute">
+                                {minute}</span>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             <div className="new-item__buttons">
                 <button type="submit" onClick={saveNotice} className="save-btn">save</button>

@@ -47,12 +47,12 @@
                 color: $darker_beige;
             }
         }
-        .date-group {
+        .date-group, .reminder-time {
             width: 100%;
             flex-direction: row;
             flex-wrap: wrap;
             
-            .date-field {
+            .dropdown-field {
                 border: 1px solid $dark_beige;
                 width: 23.5%;
                 padding: 10px;
@@ -105,15 +105,27 @@
                 &__drop-down::-webkit-scrollbar {
                     display: none;
                 }
-                &:nth-child(1) {
-                    width: 50%;
-                }
+            }
+            .month-dropdown {
+                width: 50%;
             }
             .field-required { 
                 border: 2px solid red;
             }
             .date-label {
                 width: 100%;
+            }
+            .reminder-time__label {
+                width: 100%;
+            }
+        }
+        .reminder-time {
+            width: 60%;
+            align-items: center;
+
+            &__hour-value, &__minute-value {
+                    text-align: center;
+                    width: 100%;
             }
         }
     }

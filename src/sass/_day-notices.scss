@@ -22,8 +22,10 @@
             font-family: "Roboto-Medium";
             text-decoration: underline;
         }
-        &-icon {
+        &-complete-all {
             cursor: pointer;
+            color: $orange;
+            text-decoration: underline;
         }
 
     }
@@ -51,12 +53,18 @@
             color: $beige;
         }
         .guards-required {
-            margin-top: 5px;
+            margin: 5px 0;
             color: $orange;
+        }
+        .remind-me-at {
+            color: $beige;
         }
         .completed {
             margin-top: 5px;
             width: 15px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
         }
         .show-notes {
             color: $beige;

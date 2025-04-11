@@ -27,9 +27,8 @@ function Main(props) {
         if(noticeData.length > 0) {
             const noticesThisMonth = noticeData.filter(item => item.month === calendar[props.currentMonth].month && item.year === props.currentYear).sort((a, b) => a.day - b.day)
             const nextScheduledNotice = noticesThisMonth.find(item => item.day >= props.currentDay)
-            console.log(nextScheduledNotice)
             if(nextScheduledNotice) {
-                const timeout = (new Date(`${nextScheduledNotice.noticeDate} 11:00:00`).getTime() - new Date().getTime())
+                const timeout = (new Date(`${nextScheduledNotice.noticeDate}`).getTime() - new Date().getTime())
                 if(!nextScheduledNotice.completed && timeout > 0) { 
                     console.log(timeout)
                     reminderTimeout = setTimeout(() => {
@@ -45,6 +44,7 @@ function Main(props) {
                     }, timeout);
                 }
             }
+            console.log("test")
         }
         return () => clearTimeout(reminderTimeout)
     },[noticeData])
@@ -118,12 +118,6 @@ function Main(props) {
                         setShowLogin={props.setShowLogin}
                         loggedIn={props.loggedIn}
                     />
-                    {/* <Alert 
-                        showAlert={showAlert}
-                        alertText={alertText}
-                        alertError={alertError} 
-                    /> */}
-                    <p className="reminder-message">Reminders are set to go off at 11:00 a.m. on their scheduled day</p>
                 </div>
             )
                     
