@@ -13,12 +13,14 @@ function NewItem(props) {
    const [notesValue, setNotesValue] = useState("");
    const [hourValue, setHourValue] = useState("11");
    const [minuteValue, setMinuteValue] = useState("00");
+   const [ampmValue, setAmpmValue] = useState("AM");
 
    const [monthMenuOpen, setMonthMenuOpen] = useState(false)
    const [dayMenuOpen, setDayMenuOpen] = useState(false)
    const [yearMenuOpen, setYearMenuOpen] = useState(false)
    const [reminderHourMenuOpen, setReminderHourMenuOpen] = useState(false)
    const [reminderMinuteMenuOpen, setReminderMinuteMenuOpen] = useState(false)
+   const [reminderAmpmMenuOpen, setReminderAmpmMenuOpen] = useState(false)
 
     const [dayOptions, setDayOptions] = useState(() => createDaysArray(calendar[props.currentMonth].month))
     const [yearOptions, setYearOptions] = useState([
@@ -157,12 +159,14 @@ function NewItem(props) {
             if(field.includes("year")) setYearMenuOpen(false)            
             if(field.includes("hour")) setReminderHourMenuOpen(false)            
             if(field.includes("minute")) setReminderMinuteMenuOpen(false)            
+            if(field.includes("ampm")) setReminderAmpmMenuOpen(false)            
         } else {
             if(field.includes("month")) setMonthMenuOpen(prev => prev ? false : true)
             if(field.includes("day")) setDayMenuOpen(prev => prev ? false : true)
             if(field.includes("year")) setYearMenuOpen(prev => prev ? false : true)            
             if(field.includes("hour")) setReminderHourMenuOpen(prev => prev ? false : true)            
             if(field.includes("minute")) setReminderMinuteMenuOpen(prev => prev ? false : true)
+            if(field.includes("ampm")) setReminderAmpmMenuOpen(prev => prev ? false : true)
         }
 
     }
@@ -190,6 +194,10 @@ function NewItem(props) {
         if(option.includes("minute")) {
             setMinuteValue(value);
             setReminderMinuteMenuOpen(false);
+        }
+        if(option.includes("ampm")) {
+            setAmpmValue(value);
+            setReminderAmpmMenuOpen(false);
         }
     }
 
@@ -293,6 +301,13 @@ function NewItem(props) {
                                     className="dropdown-field__drop-down-option minute">
                                 {minute}</span>
                             ))}
+                        </div>
+                    </div>
+                    <div className={`reminder-time__ampm dropdown-field`} onClick={e => toggleMenu(e)}>
+                        <p className="reminder-time__ampm-value">{ampmValue}</p>
+                        <div className={`dropdown-field__drop-down ${reminderAmpmMenuOpen ? "" : "hidden"}`}>
+                            <span className="dropdown-field__drop-down-option ampm" onClick={ e =>handleOptionClick(e)}>AM</span>
+                            <span className="dropdown-field__drop-down-option ampm" onClick={ e =>handleOptionClick(e)}>PM</span>
                         </div>
                     </div>
                 </div>

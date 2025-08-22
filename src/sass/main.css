@@ -565,7 +565,7 @@ body {
   width: 60%;
   align-items: center;
 }
-.new-item__form .reminder-time__hour-value, .new-item__form .reminder-time__minute-value {
+.new-item__form .reminder-time__hour-value, .new-item__form .reminder-time__minute-value, .new-item__form .reminder-time__ampm-value {
   text-align: center;
   width: 100%;
 }

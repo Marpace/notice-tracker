@@ -3,14 +3,22 @@ import Header from "./components/Header";
 import MonthSection from "./components/MonthSection";
 import { useEffect, useState } from "react";
 import Main from "./components/Main";
-import Login from "./components/auth/LoginModal";
+import LoginModal from "./components/auth/LoginModal";
 import Alert from "./components/main/Alert";
 
 
 function App() {
 
-    const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
-    // const base_url = "http://localhost:8080";
+  // register SW once
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(console.error);
+    });
+  }
+
+
+    // const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
+    const base_url = "http://localhost:8080";
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentDay, setCurrentDay] = useState(new Date().getDate());
@@ -110,7 +118,7 @@ function App() {
         setShowAlert={setShowAlert}
         setAlertError={setAlertError}
       />
-      <Login 
+      <LoginModal 
         showLogin={showLogin}
         setShowLogin={setShowLogin}
         setLoggedIn={setLoggedIn}

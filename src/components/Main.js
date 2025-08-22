@@ -6,6 +6,8 @@ import NewItem from "./main/NewItem";
 import { useEffect, useState } from "react";
 import { calendar } from "../Data";
 
+import { ensurePushSubscription } from './utils/push';
+
 function Main(props) {
 
     
@@ -23,14 +25,35 @@ function Main(props) {
 
     //sets reminder for next notice
     useEffect(() => {
+        setReminders();
+    },[noticeData])
+
+    useEffect(() => {
+  (async () => {
+    try {
+      const res = await fetch(`${props.base_url}/push/public-key`);
+      const { publicKey } = await res.json();
+      await ensurePushSubscription({ publicKey, apiBase: props.base_url });
+    } catch (e) { console.log('Push subscription failed', e); }
+  })();
+}, []);
+
+
+    function setReminders() {
         let reminderTimeout;
+        const now = new Date().getTime();
+        //check if notices have been loaded
         if(noticeData.length > 0) {
             const noticesThisMonth = noticeData.filter(item => item.month === calendar[props.currentMonth].month && item.year === props.currentYear).sort((a, b) => a.day - b.day)
-            const nextScheduledNotice = noticesThisMonth.find(item => item.day >= props.currentDay)
+            const nextScheduledNotice = noticesThisMonth.find(item => {
+                return item.day >= props.currentDay && new Date(item.noticeDate).getTime() > now
+        })
+        console.log(nextScheduledNotice)
+            //check if there is saved reminder in the future
             if(nextScheduledNotice) {
                 const timeout = (new Date(`${nextScheduledNotice.noticeDate}`).getTime() - new Date().getTime())
+                //check if the next reminder has not been marked as completed
                 if(!nextScheduledNotice.completed && timeout > 0) { 
-                    console.log(timeout)
                     reminderTimeout = setTimeout(() => {
                         Notification.requestPermission().then(perm => {
                             if(perm === "granted") { 
@@ -40,14 +63,14 @@ function Main(props) {
                                     icon: "./assets/icons/alert-icon.svg"
                                 })
                             }
+                            setReminders();
                         })
                     }, timeout);
                 }
             }
-            console.log("test")
         }
         return () => clearTimeout(reminderTimeout)
-    },[noticeData])
+    }
  
     function getNotices() {
         fetch(`${props.base_url}/get-notices`, {

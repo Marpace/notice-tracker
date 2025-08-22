@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Login(props) {
+function LoginModal(props) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -51,7 +51,8 @@ function Login(props) {
             setShowError(false);
           if(data.firstLogin) setShowPasswordReset(true);
           else props.setShowLogin(false);
-
+          props.setAlertText(data.message)
+          props.setShowAlert(true);
         })
         .catch(err => {
           console.log(err);
@@ -157,4 +158,4 @@ function Login(props) {
 }
 
 
-export default Login; 
+export default LoginModal; 
