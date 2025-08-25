@@ -12,7 +12,14 @@ function App() {
   // register SW once
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(console.error);
+      navigator.serviceWorker
+      .register(`${process.env.PUBLIC_URL}/sw.js`)
+      .then(reg => {
+        console.log("✅ Service Worker registered:", reg);
+      })
+      .catch(err => {
+        console.error("❌ SW registration failed:", err);
+      });
     });
   }
 

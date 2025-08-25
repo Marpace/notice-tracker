@@ -6,7 +6,7 @@ import NewItem from "./main/NewItem";
 import { useEffect, useState } from "react";
 import { calendar } from "../Data";
 
-import { ensurePushSubscription } from './utils/push';
+import { ensurePushSubscription } from "../utils/push";
 
 function Main(props) {
 
@@ -29,14 +29,14 @@ function Main(props) {
     },[noticeData])
 
     useEffect(() => {
-  (async () => {
-    try {
-      const res = await fetch(`${props.base_url}/push/public-key`);
-      const { publicKey } = await res.json();
-      await ensurePushSubscription({ publicKey, apiBase: props.base_url });
-    } catch (e) { console.log('Push subscription failed', e); }
-  })();
-}, []);
+        (async () => {
+            try {
+            const res = await fetch(`${props.base_url}/push/public-key`);
+            const { publicKey } = await res.json();
+            await ensurePushSubscription({ publicKey, apiBase: props.base_url });
+            } catch (e) { console.log('Push subscription failed', e); }
+        })();
+    }, []);
 
 
     function setReminders() {
