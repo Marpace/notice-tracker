@@ -11,6 +11,19 @@ function LoginModal(props) {
     const [showError, setShowError] = useState(false);
     const [showPasswordReset, setShowPasswordReset] = useState(false);
 
+    function registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+            .register(`${process.env.PUBLIC_URL}/sw.js`)
+            .then(reg => {
+                console.log("✅ Service Worker registered:", reg);
+            })
+            .catch(err => {
+                console.error("❌ SW registration failed:", err);
+            });
+        }
+    }
+
     function userLogin(event) {
         if(props.loadingLogin) return;
         if(event && event.key !== "Enter" && event.type !== "click") return;
@@ -53,6 +66,7 @@ function LoginModal(props) {
           else props.setShowLogin(false);
           props.setAlertText(data.message)
           props.setShowAlert(true);
+          registerServiceWorker();
         })
         .catch(err => {
           console.log(err);
@@ -61,39 +75,39 @@ function LoginModal(props) {
         });
       } 
      
-      function resetPassword() {
-        if(props.loadingLogin) return;
-        if(newPassword !== confirmNewPassword) {
-            setShowError(true);
-            return;
-        }
-        props.setLoadingLogin(true);
-        fetch(`${props.base_url}/reset-password`, {
-            method: "POST",
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-                "Content-Type": "application/json"
-            }, 
-            body: JSON.stringify({
-                userId: localStorage.getItem("userId"),
-                newPassword: newPassword
-            })
+    function resetPassword() {
+    if(props.loadingLogin) return;
+    if(newPassword !== confirmNewPassword) {
+        setShowError(true);
+        return;
+    }
+    props.setLoadingLogin(true);
+    fetch(`${props.base_url}/reset-password`, {
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify({
+            userId: localStorage.getItem("userId"),
+            newPassword: newPassword
         })
-        .then(res => {
-            return res.json();
-        })
-        .then(res => {
-            props.setShowLogin(false);
-            props.setAlertText(res.message)
-            if(res.status === 500) props.setAlertError(true);
-        })
-        .then(() => {
-            props.setShowAlert(true);
-        })
-        .catch(err => {
-            console.log(err)
-        });
-      }
+    })
+    .then(res => {
+        return res.json();
+    })
+    .then(res => {
+        props.setShowLogin(false);
+        props.setAlertText(res.message)
+        if(res.status === 500) props.setAlertError(true);
+    })
+    .then(() => {
+        props.setShowAlert(true);
+    })
+    .catch(err => {
+        console.log(err)
+    });
+    }
 
       function handleCancel() {
         props.setShowLogin(false);
