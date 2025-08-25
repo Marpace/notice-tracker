@@ -303,13 +303,7 @@ function NewItem(props) {
                             ))}
                         </div>
                     </div>
-                    <div className={`reminder-time__ampm dropdown-field`} onClick={e => toggleMenu(e)}>
-                        <p className="reminder-time__ampm-value">{ampmValue}</p>
-                        <div className={`dropdown-field__drop-down ${reminderAmpmMenuOpen ? "" : "hidden"}`}>
-                            <span className="dropdown-field__drop-down-option ampm" onClick={ e =>handleOptionClick(e)}>AM</span>
-                            <span className="dropdown-field__drop-down-option ampm" onClick={ e =>handleOptionClick(e)}>PM</span>
-                        </div>
-                    </div>
+                    
                 </div>
             <div className="new-item__buttons">
                 <button type="submit" onClick={saveNotice} className="save-btn">save</button>
