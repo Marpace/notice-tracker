@@ -7,11 +7,9 @@ import { useEffect, useState } from "react";
 import { calendar } from "../Data";
 
 import { ensurePushSubscription } from "../utils/push";
+import { convertDate } from "../utils/convertDate";
 
 function Main(props) {
-
-    
-  
 
     const [editedNotice, setEditedNotice] = useState(null);
     const [addNoticeDesktop, setAddNoticeDesktop] = useState(false);
@@ -46,12 +44,12 @@ function Main(props) {
         if(noticeData.length > 0) {
             const noticesThisMonth = noticeData.filter(item => item.month === calendar[props.currentMonth].month && item.year === props.currentYear).sort((a, b) => a.day - b.day)
             const nextScheduledNotice = noticesThisMonth.find(item => {
-                return item.day >= props.currentDay && new Date(item.noticeDate).getTime() > now
+                return item.day >= props.currentDay && new Date(convertDate(item.noticeDate)).getTime() > now
         })
         console.log(nextScheduledNotice)
             //check if there is saved reminder in the future
             if(nextScheduledNotice) {
-                const timeout = (new Date(`${nextScheduledNotice.noticeDate}`).getTime() - new Date().getTime())
+                const timeout = (new Date(`${convertDate(nextScheduledNotice.noticeDate)}`).getTime() - new Date().getTime())
                 //check if the next reminder has not been marked as completed
                 if(!nextScheduledNotice.completed && timeout > 0) { 
                     reminderTimeout = setTimeout(() => {

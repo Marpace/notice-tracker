@@ -62,6 +62,7 @@ export const calendar = [
 ]
 
 export const hours = [
+    "00",
     "01",
     "02",
     "03",
@@ -85,7 +86,6 @@ export const hours = [
     "21",
     "22",
     "23",
-    "24",
 ]
 export const minutes = [
     "00", 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { calendar } from "../../Data";
 import DayBar from "./DayBar";
 import Modal from "./Modal";
+import { convertDate } from "../../utils/convertDate";
 
 
 function DailyNotices(props) {
@@ -13,16 +14,13 @@ function DailyNotices(props) {
     const [noticesHeader, setNoticesHeader] = useState("");
     const [allCompleted, setAllCompleted] = useState(false);
 
-
     useEffect(() => {
         setNotices(() => {
             const arr = [];
             if(props.filter === "pending") {
                 props.noticeData.map( notice => {
-                    const noticeDate = new Date(notice.noticeDate)
+                    const noticeDate = convertDate(notice.noticeDate)
                     const today = new Date();
-                    console.log(today)
-                    console.log(noticeDate)
                     if(today <= noticeDate && !notice.completed) {
                         notice.menuIsOpen = false;
                         arr.push(notice)
@@ -30,7 +28,7 @@ function DailyNotices(props) {
                 })
             } else if (props.filter === "overdue") {
                 props.noticeData.map( notice => {
-                    const noticeDate = new Date(notice.noticeDate)
+                    const noticeDate = convertDate(notice.noticeDate)
                     const today = new Date();
                     if(today > noticeDate && !notice.completed) {
                         notice.menuIsOpen = false;
