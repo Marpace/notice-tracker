@@ -97,6 +97,8 @@ function NewItem(props) {
 
         props.setShowAlert(false);
         props.setAlertError(false);
+
+        const localDate = new Date(`${calendar[props.currentMonth].month} ${props.currentDay} ${props.currentYear} ${hourValue}:${minuteValue}`)
         fetch(`${props.base_url}/save-notice`, {
             method: "POST",
             headers: {
@@ -107,7 +109,7 @@ function NewItem(props) {
                 year: props.currentYear,
                 month: calendar[props.currentMonth].month,
                 day: props.currentDay,
-                noticeDate: `${calendar[props.currentMonth].month} ${props.currentDay} ${props.currentYear} ${hourValue}:${minuteValue}`,
+                noticeDate: localDate,
                 reminderTime: `${hourValue}:${minuteValue}`,
                 title: descriptionValue,
                 eventDate: dateValue,
