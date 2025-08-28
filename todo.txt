@@ -7,7 +7,7 @@
 - Make it responsive
 ✔ Add option to choose specific time for reminder
 ✔ Change icon for "mark all as completed"
-- Multiple reminders in one day
+✔ Multiple reminders in one day
 - Change reminder time to AM/PM format
 
 
