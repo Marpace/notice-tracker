@@ -9,21 +9,6 @@ import Alert from "./components/main/Alert";
 
 function App() {
 
-  // // register SW once
-  // if ('serviceWorker' in navigator) {
-  //   window.addEventListener('load', () => {
-  //     console.log("hello")
-  //     navigator.serviceWorker
-  //     .register(`${process.env.PUBLIC_URL}/sw.js`)
-  //     .then(reg => {
-  //       console.log("✅ Service Worker registered:", reg);
-  //     })
-  //     .catch(err => {
-  //       console.error("❌ SW registration failed:", err);
-  //     });
-  //   });
-  // }
-
 
     const base_url = "https://notice-tracker-25c8406a0d3d.herokuapp.com";
     // const base_url = "http://localhost:8080";

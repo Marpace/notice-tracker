@@ -120,7 +120,8 @@ function NewItem(props) {
                 showNotes: false,
                 createdBy: localStorage.getItem("name"),
                 wasEdited: noticeChanged,
-                noticeId: props.editedNotice ? props.editedNotice._id : null
+                noticeId: props.editedNotice ? props.editedNotice._id : null,
+                userId: localStorage.getItem("userId")
             })
         })
         .then(res => {
