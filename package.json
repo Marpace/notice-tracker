@@ -1,5 +1,6 @@
 {
   "name": "notice-tracker",
+  "homepage": "https://Marpace.github.io/notice-tracker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -10,6 +10,10 @@ function Header(props) {
     function handleMenuClick() {
         setMenuIsOpen(prev => prev === false ? true : false )
     }
+
+    function handleMobileOptionClick() {
+
+    }
     
 
     return (
@@ -19,7 +23,7 @@ function Header(props) {
                 <p className="desktop-username__name">{localStorage.getItem("name")}</p> 
                 <p className="desktop-username__title">{localStorage.getItem("position")}</p>
             </div>
-            <div className="menu-options">
+            <div className="header__menu-options">
                 <p onClick={() => props.setFilter("pending")} className={`${props.filter === "pending" ? "menu-options__option-selected" : ""} menu-options__option`}>Pending Notices</p>
                 <p onClick={() => props.setFilter("overdue")} className={`${props.filter === "overdue" ? "menu-options__option-selected" : ""} menu-options__option`}>Overdue Notices</p>
                 <p className={`menu-options__option ${props.loggedIn ? "hidden" : ""}`} onClick={() => props.setShowLogin(true)}>Login</p>
@@ -30,10 +34,16 @@ function Header(props) {
                 <div className="menu-icon-line"></div>
                 <div className="menu-icon-line"></div>
             </div>
-            <div style={{right: `${menuIsOpen ? "0" : "-100%"}`}} className="menu">
+            <div className={`header__menu ${menuIsOpen ? "menu-open" : ""}`}>
                 <div onClick={() => setMenuIsOpen(prev => prev === false ? true : false)} className="menu__close-btn">
                     <img src="./assets/icons/close-icon.svg"></img>
                 </div>
+                <div className="menu-options">
+                <p id="pending" onClick={handleMobileOptionClick} className={`${props.filter === "pending" ? "menu-options__option-selected" : ""} menu-options__option`}>Pending Notices</p>
+                <p id="overdue" onClick={handleMobileOptionClick} className={`${props.filter === "overdue" ? "menu-options__option-selected" : ""} menu-options__option`}>Overdue Notices</p>
+                <p className={`menu-options__option ${props.loggedIn ? "hidden" : ""}`} onClick={() => props.setShowLogin(true)}>Login</p>
+                <p className={`menu-options__option ${props.loggedIn ? "" : "hidden"}`} onClick={() => props.userLogout()}>Logout</p>
+            </div>
             </div>
             <Alert 
                 showAlert={props.showAlert}

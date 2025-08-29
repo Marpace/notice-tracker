@@ -103,6 +103,7 @@ body {
 
 .header {
   display: flex;
+  justify-content: space-between;
 }
 .header .desktop-username {
   display: none;
@@ -117,27 +118,47 @@ body {
 .header__menu-icon .menu-icon-line {
   width: 100%;
   height: 2px;
-  background-color: rgb(241, 235, 229);
+  background-color: #99928c;
 }
-.header .menu {
+.header__menu-options {
+  display: none;
+}
+.header__menu {
   height: 100vh;
-  width: 50%;
+  width: 60%;
   padding: 20px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 100px;
   position: absolute;
   top: 0;
   right: -100%;
   background-color: #0a233e;
   transition: right 300ms ease-in-out;
+  z-index: 1000;
+}
+.header__menu .menu-options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.header__menu .menu-options__option {
+  color: #f1ebe5;
+  font-size: 18px;
+  text-align: right;
+}
+.header .menu-open {
+  right: 0;
 }
 @media only screen and (min-width: 1280px) {
   .header {
     width: 15vw;
     max-width: 300px;
     position: relative;
-    display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: 100px;
     border: 1px solid white;
     height: 100vh;
@@ -145,7 +166,7 @@ body {
     padding: 30px 20px;
   }
   .header__heading {
-    color: rgb(241, 235, 229);
+    color: #f1ebe5;
   }
   .header .desktop-username {
     width: 300px;
@@ -174,7 +195,7 @@ body {
     gap: 20px;
   }
   .header .menu-options__option {
-    color: rgb(241, 235, 229);
+    color: #f1ebe5;
     font-size: 1rem;
     font-family: "Roboto-Medium";
     cursor: pointer;
@@ -308,7 +329,6 @@ body {
   background-color: #5c5855;
   border-radius: 5px;
   position: relative;
-  min-height: 60px;
   animation-name: fadeIn;
   animation-duration: 300ms;
   animation-timing-function: ease-out;
@@ -322,17 +342,17 @@ body {
   font-size: 1rem;
   font-family: "Roboto-Medium";
   margin-bottom: 5px;
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
 }
 .day-notices__item .notice-scheduled-date {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
 }
 .day-notices__item .guards-required {
   margin: 5px 0;
   color: #ff9326;
 }
 .day-notices__item .remind-me-at {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
 }
 .day-notices__item .completed {
   margin-top: 5px;
@@ -342,7 +362,7 @@ body {
   right: 10px;
 }
 .day-notices__item .show-notes {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
   margin-top: 5px;
   display: flex;
   flex-direction: column;
@@ -387,7 +407,7 @@ body {
   gap: 7px;
   top: 15px;
   right: 30px;
-  background-color: rgb(241, 235, 229);
+  background-color: #f1ebe5;
   box-shadow: 2px 2px 10px rgb(22, 22, 22);
 }
 .day-notices__item .notice-menu-option {
@@ -540,11 +560,11 @@ body {
 }
 .new-item__form .date-group .dropdown-field__drop-down-option:hover, .new-item__form .reminder-time .dropdown-field__drop-down-option:hover {
   background-color: #5c5855;
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
 }
 .new-item__form .date-group .dropdown-field__drop-down .selected-option, .new-item__form .reminder-time .dropdown-field__drop-down .selected-option {
   background-color: #5c5855;
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
 }
 .new-item__form .date-group .dropdown-field__drop-down::-webkit-scrollbar, .new-item__form .reminder-time .dropdown-field__drop-down::-webkit-scrollbar {
   display: none;
@@ -580,7 +600,7 @@ body {
   max-width: 150px;
   background-color: #5c5855;
   border: none;
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
   border-radius: 5px;
   font-size: 1.2rem;
   cursor: pointer;
@@ -588,7 +608,7 @@ body {
 }
 .new-item__buttons .save-btn:hover, .new-item__buttons .cancel-btn:hover {
   color: #5c5855;
-  background-color: rgb(241, 235, 229);
+  background-color: #f1ebe5;
   border: 1px solid #5c5855;
 }
 
@@ -869,7 +889,7 @@ body {
   align-items: center;
 }
 .modal__body-text {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
   font-family: "Roboto-Medium";
   font-size: 1rem;
 }
@@ -881,7 +901,7 @@ body {
   color: #0a233e;
   border: none;
   padding: 10px 20px;
-  background-color: rgb(241, 235, 229);
+  background-color: #f1ebe5;
   border-radius: 5px;
   cursor: pointer;
   font-family: "Roboto-Medium";
@@ -889,8 +909,8 @@ body {
 }
 .modal__body-buttons .modal-btn:hover {
   background-color: #0a233e;
-  color: rgb(241, 235, 229);
-  outline: 1px solid rgb(241, 235, 229);
+  color: #f1ebe5;
+  outline: 1px solid #f1ebe5;
 }
 
 .login-modal {
@@ -917,7 +937,7 @@ body {
   padding: 30px;
 }
 .login-modal__body-title {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
   font-family: "Roboto-Bold";
   font-size: 1.6rem;
   text-align: center;
@@ -935,14 +955,14 @@ body {
 }
 .login-modal__body-inputs-group .login-input {
   height: 30px;
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
   padding: 0 5px;
   background: none;
   border: none;
-  border-bottom: 1px solid rgb(241, 235, 229);
+  border-bottom: 1px solid #f1ebe5;
 }
 .login-modal__body-inputs-group .login-input-label {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
 }
 .login-modal__body-buttons {
   display: flex;
@@ -955,15 +975,15 @@ body {
   justify-content: center;
   align-items: center;
   color: #0a233e;
-  background-color: rgb(241, 235, 229);
+  background-color: #f1ebe5;
   border: none;
   transition: 100ms;
   cursor: pointer;
 }
 .login-modal__body-buttons .login-btn:hover {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
   background-color: #0a233e;
-  border: 1px solid rgb(241, 235, 229);
+  border: 1px solid #f1ebe5;
 }
 .login-modal__body-buttons .loading-login {
   width: 20px;
@@ -984,7 +1004,7 @@ body {
   }
 }
 .login-modal__body .forgot-password {
-  color: rgb(241, 235, 229);
+  color: #f1ebe5;
   text-decoration: underline;
   cursor: pointer;
 }/*# sourceMappingURL=main.css.map */
