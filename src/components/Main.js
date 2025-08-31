@@ -170,6 +170,8 @@ function Main(props) {
                     setCurrentDay={props.setCurrentDay}
                     setPrevScreen={props.setPrevScreen}
                     noticeData={noticeData}
+                    loggedIn={props.loggedIn}
+                    setShowLogin={props.setShowLogin}
                 />
             )
         case "new-item": 

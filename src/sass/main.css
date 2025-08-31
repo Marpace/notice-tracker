@@ -154,7 +154,7 @@ body {
 }
 @media only screen and (min-width: 1280px) {
   .header {
-    width: 15vw;
+    width: 20vw;
     max-width: 300px;
     position: relative;
     flex-direction: column;
@@ -185,22 +185,22 @@ body {
   .header__menu-icon {
     display: none;
   }
-  .header .menu {
+  .header__menu {
     display: none;
   }
-  .header .menu-options {
+  .header__menu-options {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
-  .header .menu-options__option {
+  .header__menu-options--option {
     color: #f1ebe5;
     font-size: 1rem;
     font-family: "Roboto-Medium";
     cursor: pointer;
   }
-  .header .menu-options__option-selected {
+  .header__menu-options--option-selected {
     font-family: "Roboto-Black";
   }
 }
@@ -224,7 +224,8 @@ body {
 .month-section .month-container .month-selection {
   position: absolute;
   top: 100%;
-  background-color: #0a233e;
+  background-color: #ffffff;
+  border: 1px solid #5c5855;
   z-index: 10;
   padding: 5px 0;
 }
@@ -826,32 +827,52 @@ body {
 }
 
 .alert {
+  display: flex;
+  justify-content: center;
   height: 30px;
-  width: 0px;
+  width: 300px;
   position: absolute;
-  left: calc(100% + 20px);
-  top: 90px;
+  left: 50%;
+  top: -50px;
+  translate: -50% 0;
   overflow: hidden;
-  animation-name: showAlert;
+  animation-name: alertMobile;
   animation-duration: 3000ms;
-  animation-timing-function: linear;
+}
+@media only screen and (min-width: 1280px) {
+  .alert {
+    justify-content: flex-start;
+    width: 0px;
+    position: absolute;
+    left: calc(100% + 20px);
+    top: 90px;
+    animation-name: alertDesktop;
+    animation-timing-function: linear;
+  }
 }
 .alert__text {
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
   padding: 5px 10px;
   background-color: #ff9326;
   border-radius: 5px;
   white-space: nowrap;
   color: #0a233e;
   font-family: "Roboto-Medium";
+  text-align: center;
+}
+@media only screen and (min-width: 1280px) {
+  .alert__text {
+    width: -moz-fit-content;
+    width: fit-content;
+    text-align: left;
+  }
 }
 .alert .error-alert {
   background-color: rgb(218, 81, 81);
   color: #23497b;
 }
 
-@keyframes showAlert {
+@keyframes alertDesktop {
   0% {
     width: 0px;
   }
@@ -863,6 +884,20 @@ body {
   }
   100% {
     width: 0px;
+  }
+}
+@keyframes alertMobile {
+  0% {
+    top: -50px;
+  }
+  10% {
+    top: 30px;
+  }
+  90% {
+    top: 30px;
+  }
+  100% {
+    top: -50px;
   }
 }
 .modal {

@@ -121,7 +121,6 @@ function Calendar(props) {
         else {
             props.setAddNoticeDesktop(true);
             props.setCurrentDay(date)
-            console.log(date)
         }
     }
 

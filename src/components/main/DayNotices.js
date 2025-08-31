@@ -176,12 +176,12 @@ function DailyNotices(props) {
             <div className="day-notices__header">
                 <p className={`day-notices__header-title`}>{noticesHeader}</p>
                 <p 
-                onClick={markAllAsCompleted} 
-                className={`day-notices__header-complete-all ${props.filter === "overdue" && notices.length > 0 ? "" : "hidden"}`} 
+                    onClick={markAllAsCompleted} 
+                    className={`day-notices__header-complete-all ${props.filter === "overdue" && notices.length > 0 ? "" : "hidden"}`} 
                 >Mark all as completed</p>
             </div>
             {notices.map((notice, index) => (
-                <div key={index} className="day-notices__item" style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
+                <div key={index} className="day-notices__item">
                     <p className="notice-title">{notice.title}</p>
                     <p className="notice-scheduled-date">{`Scheduled for ${notice.eventDate}`}</p>
                     <p className={`guards-required`}>{`${notice.numberOfGuards <= 0 ? "No escort guards required" : `${notice.numberOfGuards === 1 ? "Requires 1 escort guard" : `Requires ${notice.numberOfGuards} escort guards`}`}` }</p>
@@ -205,12 +205,12 @@ function DailyNotices(props) {
                     </div>
                 </div>
             ))}
-            <DayBar 
+            {/* <DayBar 
                 currentMonth={props.currentMonth}
                 currentScreen={props.currentScreen}     
                 currentDay={props.currentDay}
                 setCurrentDay={props.setCurrentDay}
-            />
+            /> */}
             <Modal 
                 modalIsOpen={modalIsOpen}
                 setModalIsOpen={setModalIsOpen}

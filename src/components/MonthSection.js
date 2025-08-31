@@ -27,22 +27,21 @@ function MonthSection(props) {
 
     function getOrdinal(n) {
         let ord = 'th';
-        const num = n + 1;
       
-        if (num % 10 === 1 && num % 100 !== 11)
+        if (n % 10 === 1 && n % 100 !== 11)
         {
           ord = 'st';
         }
-        else if (num % 10 === 2 && num % 100 !== 12)
+        else if (n % 10 === 2 && n % 100 !== 12)
         {
           ord = 'nd';
         }
-        else if (num % 10 === 3 && num % 100 !== 13)
+        else if (n % 10 === 3 && n % 100 !== 13)
         {
           ord = 'rd';
         }
       
-        return `${num}${ord}`;
+        return `${n}${ord}`;
       }
 
       function handlePlusIconClick() {
@@ -51,7 +50,7 @@ function MonthSection(props) {
       }
 
     return (
-        <div className={`month-section`} style={{marginRight: `${props.currentScreen === "day" ? "40px" : ""}`}}>
+        <div className={`month-section`}>
             <div className="month-container">
                 <p className="month">{`${calendar[props.currentMonth].month} ${props.currentScreen === "new-item" ? getOrdinal(props.currentDay) : ""}`}</p>
                 <img className={`${props.currentScreen === "new-item" ? "hidden" : ""}`} onClick={() => setShowMonthSelection(prev => prev === true ? false : true)} src="./assets/icons/arrow-icon.svg"></img>
