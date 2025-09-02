@@ -6,22 +6,21 @@ function MonthNotices(props) {
     const [days, setDays] = useState([]);
 
     useEffect(() => {
-        setDays(prev => {
-            const arr = [];
-            for(let i = 1; i < calendar[props.currentMonth].numberOfDays; i++){
-                const noticeArr = [];
-                props.noticeData.map(notice => {
-                    if(notice.month === calendar[props.currentMonth].month) {
-                        if(notice.day === i) {
-                            noticeArr.push(notice);
-                        }
-                    }
-                })
-                arr.push(noticeArr);
+        const arr = [];
+        const currentMonthData = calendar[props.currentMonth];
+
+        for (let i = 1; i <= currentMonthData.numberOfDays; i++) {
+        const noticeArr = [];
+        props.noticeData.forEach(notice => {
+            if (notice.month === currentMonthData.month && notice.day === i) {
+            noticeArr.push(notice);
             }
-            return arr;
-        })
-    }, [props.currentMonth])
+        });
+        arr.push(noticeArr);
+        }
+
+        setDays(arr);
+    }, [props.currentMonth, props.noticeData]);
 
     function getOrdinal(n) {
         let ord = 'th';
@@ -54,7 +53,7 @@ function MonthNotices(props) {
 
     function handleItemClick(index, e) {
         if(e.target.className.includes("plus-icon")) return;
-        props.setCurrentDay(index);
+        props.setCurrentDay(index + 1);
         props.setCurrentScreen("day");
     }
 

@@ -34,9 +34,9 @@
         gap: 100px;
         position: absolute;
         top: 0;
-        right: -100%;
+        left: 100%;
         background-color: $dark_blue;
-        transition: right 300ms ease-in-out;
+        transition: left 300ms ease-in-out;
         z-index: 1000;
 
         .menu-options {
@@ -54,7 +54,7 @@
     }
 
     .menu-open {
-        right: 0;
+        left: 40%;
     }
     
     @include responsive($laptop) {

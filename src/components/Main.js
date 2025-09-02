@@ -159,6 +159,8 @@ function Main(props) {
                     base_url={props.base_url}
                     getNotices={getNotices}
                     filter={props.filter}
+                    setShowLogin={props.setShowLogin}
+                    loggedIn={props.loggedIn}
                 />
             )    
         case "month": 
