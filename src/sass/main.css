@@ -847,7 +847,9 @@ body {
     position: absolute;
     left: calc(100% + 20px);
     top: 90px;
+    translate: 0 0;
     animation-name: alertDesktop;
+    animation-duration: 3000ms;
     animation-timing-function: linear;
   }
 }

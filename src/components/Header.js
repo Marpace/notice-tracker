@@ -56,6 +56,7 @@ function Header(props) {
 
             <Alert 
                 showAlert={props.showAlert}
+                setShowAlert={props.setShowAlert}
                 alertText={props.alertText}
                 alertError={props.alertError} 
             />

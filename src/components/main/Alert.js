@@ -1,3 +1,4 @@
+
 function Alert(props) {
     return (
         <div className={`alert ${props.showAlert ? "" : "hidden"}`}>

@@ -4,7 +4,6 @@ import MonthSection from "./components/MonthSection";
 import { useEffect, useState } from "react";
 import Main from "./components/Main";
 import LoginModal from "./components/auth/LoginModal";
-import Alert from "./components/main/Alert";
 
 
 function App() {
@@ -27,7 +26,41 @@ function App() {
   const [alertText, setAlertText] = useState("Notice Saved");
   const [showAlert, setShowAlert] = useState(false);
   const [alertError, setAlertError] = useState(false);
+  const [backPressedOnce, setBackPressedOnce] = useState(false);
 
+  useEffect(() => {
+    let timeout;
+
+    // Push a dummy state so back button triggers popstate
+    window.history.pushState(null, "", window.location.href);
+
+    const handlePopState = () => {
+      if (!backPressedOnce) {
+        // First back press
+        setBackPressedOnce(true);
+
+        // Reset after 1 second
+        timeout = setTimeout(() => {
+          setBackPressedOnce(false);
+        }, 1000);
+
+        // Prevent leaving the app
+        window.history.pushState(null, "", window.location.href);
+      } else {
+        // Second back press → let browser handle exit
+        clearTimeout(timeout);
+        window.history.back();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      clearTimeout(timeout);
+    };
+  }, [backPressedOnce]);
+  
   useEffect(() => {
     const screenWidth = window.screen.width;
     if(screenWidth > 1279) {
@@ -80,6 +113,7 @@ function App() {
         loggedIn={loggedIn}
         userLogout={userLogout}
         showAlert={showAlert}
+        setShowAlert={setShowAlert}
         alertText={alertText}
         alertError={alertError} 
       />
