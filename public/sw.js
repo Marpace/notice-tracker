@@ -18,7 +18,8 @@ self.addEventListener('push', (event) => {
     body: data.body || '',                               // text under the title
     icon: data.icon || '/assets/icons/alert-icon.svg',   // main icon
     badge: data.badge || '/assets/icons/alert-icon.svg', // small monochrome badge (Android)
-    data: { url: data.url || '/' }                       // store a URL for later (used on click)
+    data: { url: data.url || '/' },                      // store a URL for later (used on click)
+    actions: data.actions || [],                         // buttons
   };
 
   // Show the notification. waitUntil() keeps the SW alive until it's displayed
@@ -33,12 +34,19 @@ self.addEventListener('notificationclick', (event) => {
   // Close the notification immediately
   event.notification.close();
 
+  if (event.action === "snooze") {
+    // 🕑 Your custom snooze logic
+    console.log("User clicked Snooze");
+  } else if (event.action === "dismiss") {
+    console.log("User clicked Dismiss");
+  } else {
+
+
   // Get the stored URL (fallback to site root)
   const url = event.notification.data && event.notification.data.url 
     ? event.notification.data.url 
     : '/';
 
-  // Ensure some page is focused/opened with our app
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true })
       .then(list => {
