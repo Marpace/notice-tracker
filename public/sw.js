@@ -19,7 +19,7 @@ self.addEventListener('push', (event) => {
     icon: data.icon || '/assets/icons/alert-icon.svg',   // main icon
     badge: data.badge || '/assets/icons/alert-icon.svg', // small monochrome badge (Android)
     data: { url: data.url || '/' },                      // store a URL for later (used on click)
-    actions: data.actions || [],                         // buttons
+    actions: data.actions || [],                         // notification buttons
   };
 
   // Show the notification. waitUntil() keeps the SW alive until it's displayed
@@ -33,29 +33,29 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   // Close the notification immediately
   event.notification.close();
-
-  if (event.action === "snooze") {
+  
+  // Get the stored URL (fallback to site root)
+  const url = event.notification.data && event.notification.data.url 
+    ? event.notification.data.url 
+    : '/';
+  
+  
+    if (event.action === "snooze") {
     // 🕑 Your custom snooze logic
     console.log("User clicked Snooze");
   } else if (event.action === "dismiss") {
     console.log("User clicked Dismiss");
   } else {
-
-
-  // Get the stored URL (fallback to site root)
-  const url = event.notification.data && event.notification.data.url 
-    ? event.notification.data.url 
-    : '/';
-
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(list => {
-        // If a window/tab is already open, focus it
-        for (const client of list) {
-          if ('focus' in client) return client.focus();
-        }
-        // Otherwise open a brand new tab/window to the target URL
-        if (clients.openWindow) return clients.openWindow(url);
-      })
-  );
+    event.waitUntil(
+      clients.matchAll({ type: 'window', includeUncontrolled: true })
+        .then(list => {
+          // If a window/tab is already open, focus it
+          for (const client of list) {
+            if ('focus' in client) return client.focus();
+          }
+          // Otherwise open a brand new tab/window to the target URL
+          if (clients.openWindow) return clients.openWindow(url);
+        })
+    );
+  }
 });
